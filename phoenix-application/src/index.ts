@@ -23,6 +23,15 @@ const createWindow = (): void => {
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
+  mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': ["connect-src ws://localhost:3000 http://127.0.0.1:3001"]
+      }
+    })
+});
+
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 };
