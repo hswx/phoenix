@@ -3,6 +3,7 @@ enum API_CODES {
   Error = "10001",
   REGISTER_TELEPHONE_REPEAT= "10002",
   LOGIN_ACCOUNT_ERROR = '10003',
+  STORE_UNFIND = '1004',
 }
 
 export default API_CODES

@@ -1,19 +1,26 @@
 import { createHashRouter } from "react-router-dom";
-import SignIn from "../views/login";
-import Register from "../views/register";
+import Register from "../views/Register";
+import Login from "../views/Login";
+import Dashborad from "../views/Dashboard";
 
 const router = createHashRouter([
-  {
-    path: "/",
-    element: <SignIn />,
-  },
   {
     path: "/register",
     element: <Register />,
   },
   {
     path: "/login",
-    element: <SignIn />
+    element: <Login />
+  },
+  {
+    path: "/dashboard",
+    element: <Dashborad />,
+    children: [
+      {
+        index: true,
+        element: <></>
+      }
+    ]
   }
 ]);
 

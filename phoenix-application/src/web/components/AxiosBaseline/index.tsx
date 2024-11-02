@@ -32,7 +32,7 @@ const AxiosBaseline = () => {
         } else {
           enqueueSnackbar("接口异常，请重试", {variant: "error"})
         }
-        return e;
+        return Promise.reject(e);
       }
     )
   }, []);

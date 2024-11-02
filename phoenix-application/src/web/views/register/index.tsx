@@ -1,16 +1,16 @@
-import * as React from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import LoginConainter from "./../../components/LoginConainter";
-import { TEXT_FIELD_ERROR_TYPE } from "./../../utils/constants";
-import { register } from "./../../apis/auth";
-import API_CODES from "./../../utils/API_CODES";
+import LoginConainter from "../../components/LoginConainter";
+import { TEXT_FIELD_ERROR_TYPE } from "../../utils/constants";
+import { register } from "../../apis/auth";
+import API_CODES from "../../utils/API_CODES";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import AsyncButton from "./../../components/AsyncButton";
+import AsyncButton from "../../components/AsyncButton";
 
 export interface ReigsterFieldsData {
   userName: string;
