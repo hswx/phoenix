@@ -1,5 +1,5 @@
-import { DataTypes, Sequelize } from "sequelize";
-import * as dbConfig from "./config";
+import { Sequelize } from "sequelize";
+import * as dbConfig from "../utils/config";
 import initAccount from "./Account";
 import initStore from "./Store";
 import Account from "./../model/Account";

@@ -2,6 +2,9 @@ import express from "express";
 import { initDB } from "./dao/db";
 import authRouter from "./routes/auth";
 import API_CODES from "./utils/API_CODES";
+import jwt from "jsonwebtoken";
+import { JWT_SCRECT } from "./utils/config";
+import Account from "./model/Account";
 
 var cookieParser = require("cookie-parser");
 
@@ -48,6 +51,30 @@ app.use((req, res, next) => {
   };
   next(); 
 });
+
+app.use(async (req, res, next) => {
+  const regexp = /^\/auth\/\S+/;
+  if (regexp.test(req.url)) {
+    next()
+  } else {
+    const authorizationToken = req.headers.authorization?.split(' ')[1];
+    if (authorizationToken) {
+      try {
+        const jwtToken = jwt.verify(authorizationToken, JWT_SCRECT) as jwt.JwtPayload
+        const account = await Account.findOne({
+          where: {
+            token: jwtToken.token
+          }
+        })
+        if (account) {
+          req.body.accountId = account.dataValues.id;
+          next()
+        }
+      } catch (e) {}
+    }
+    res.sendStatus(401)
+  }
+})
 
 app.use("/auth", authRouter);
 

@@ -159,6 +159,8 @@ export default function Register() {
       navigate("/login")
     } else if (res.code === API_CODES.REGISTER_TELEPHONE_REPEAT) {
       enqueueSnackbar("该手机号已被注册", { variant: "error" })
+    } else {
+      enqueueSnackbar("注册失败，请重试", { variant: "error" })
     }
   }
 

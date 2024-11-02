@@ -13,3 +13,15 @@ type registerBody = {
 export const register = (data: registerBody) => {
   return axios.post<{}, ApiResponse, registerBody>(apiRegister, data)
 }
+
+const apiLogin = "/auth/login"
+type loginBody = {
+  telephoneNumber: string;
+  password: string;
+}
+type loginResponse = {
+  token: string
+}
+export const login = (data: loginBody) => {
+  return axios.post<{}, ApiResponse<loginResponse>, loginBody>(apiLogin, data)
+}

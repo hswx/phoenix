@@ -14,3 +14,5 @@ export interface ApiResponse<T = unknown> {
   data?: T;
   message?: string;
 }
+
+export const LOGIN_TOKEN_NAME = "phoenix-token"

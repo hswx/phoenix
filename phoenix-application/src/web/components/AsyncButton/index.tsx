@@ -20,7 +20,7 @@ const AsyncButton = (props: AsyncButtonProps) => {
     onClick={clickFn}
     loading={loading}
     loadingPosition="start"
-    startIcon={null}
+    startIcon={<></>}
     {...restProps}
   >{children}</LoadingButton>
 }

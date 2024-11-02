@@ -3,6 +3,10 @@ import Account from './../model/Account';
 import API_CODES from './../utils/API_CODES';
 import { UniqueConstraintError } from 'sequelize';
 import Store from './../model/Store';
+import jwt from "jsonwebtoken";
+import { encodeWithHash } from './../utils/crypto';
+import { JWT_SCRECT } from './../utils/config';
+
 const router = express.Router();
 
 type registerBody = {
@@ -34,5 +38,33 @@ router.post('/register', async function(req: Request<{}, {}, registerBody>, res)
     }
   }
 });
+
+type loginBody = {
+  telephoneNumber: string;
+  password: string;
+}
+router.post("/login", async function(req: Request<{}, {}, loginBody>, res) {
+  const body = req.body;
+  const account = await Account.findOne({
+    where: {
+      telephone: body.telephoneNumber,
+      password: encodeWithHash(body.password),
+    }
+  })
+  if (account) {
+    res.sendResponse(API_CODES.SUCCESS, {
+      token: jwt.sign(
+        {
+          token: account.dataValues.token
+        },
+        JWT_SCRECT,
+        {
+          expiresIn: '8h',
+        })
+    })
+  } else {
+    res.sendResponse(API_CODES.LOGIN_ACCOUNT_ERROR, undefined, '账号密码错误')
+  }
+})
 
 export default router;
