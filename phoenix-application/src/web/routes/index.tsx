@@ -10,6 +10,10 @@ const router = createHashRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/login",
+    element: <SignIn />
   }
 ]);
 

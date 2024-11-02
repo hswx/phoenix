@@ -2,6 +2,7 @@ import express, { Request } from 'express';
 import Account from './../model/Account';
 import API_CODES from './../utils/API_CODES';
 import { UniqueConstraintError } from 'sequelize';
+import Store from './../model/Store';
 const router = express.Router();
 
 type registerBody = {
@@ -14,9 +15,15 @@ type registerBody = {
 router.post('/register', async function(req: Request<{}, {}, registerBody>, res) {
   const body = req.body
   try {
-    await new Account({
+    const saveAccountRes = await new Account({
       telephone: body.telephoneNumber,
       password: body.password,
+    }).save()
+    await new Store({
+      name: body.storeName,
+      ownerName: body.userName,
+      address: body.storeAddress,
+      accountId: saveAccountRes.dataValues.id,
     }).save()
     res.sendResponse(API_CODES.SUCCESS)
   } catch (e) {

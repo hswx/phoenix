@@ -1,6 +1,9 @@
 import { DataTypes, Sequelize } from "sequelize";
 import * as dbConfig from "./config";
 import initAccount from "./Account";
+import initStore from "./Store";
+import Account from "./../model/Account";
+import Store from "./../model/Store";
 
 export async function initDB() {
     const sequelize = new Sequelize(dbConfig.DB_NAME, dbConfig.USER_NAME, dbConfig.DB_PASSWORD, {
@@ -21,7 +24,12 @@ export async function initDB() {
         console.error('Unable to connect to the database:', error);
     }
     initAccount(sequelize);
-    
+    initStore(sequelize);
+
+    Account.hasOne(Store)
+    Store.belongsTo(Account);
+
+  
 
     await sequelize.sync();
 }

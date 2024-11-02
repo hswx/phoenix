@@ -1,6 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
@@ -11,6 +10,7 @@ import { register } from "./../../apis/auth";
 import API_CODES from "./../../utils/API_CODES";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import AsyncButton from "./../../components/AsyncButton";
 
 export interface ReigsterFieldsData {
   userName: string;
@@ -70,7 +70,7 @@ export default function Register() {
     }
   }
 
-  const onReigsterFieldsChange = (key: ReigsterFieldsDataKeys) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onReigsterFieldChange = (key: ReigsterFieldsDataKeys) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setReigsterFields(prev => ({
       ...prev,
       [key]: event.target.value
@@ -117,16 +117,16 @@ export default function Register() {
     return fieldsState
   }
 
-  const onReigsterFieldsBlur = (key: ReigsterFieldsDataKeys) => (event: React.FocusEvent<HTMLInputElement>) => {
+  const onReigsterFieldBlur = (key: ReigsterFieldsDataKeys) => (event: React.FocusEvent<HTMLInputElement>) => {
     const value = event.target.value;
     validateField(key)(value);
   }
 
-  const getFieldsErrorState = (key: ReigsterFieldsDataKeys) => {
+  const getFieldErrorState = (key: ReigsterFieldsDataKeys) => {
     return reigsterFieldsError[key] !== TEXT_FIELD_ERROR_TYPE.NORMAL && reigsterFieldsError[key] !== TEXT_FIELD_ERROR_TYPE.UNKNOWN
   }
 
-  const getFieldsErrorTip = (key: ReigsterFieldsDataKeys) => {
+  const getFieldErrorTip = (key: ReigsterFieldsDataKeys) => {
     const errorType = reigsterFieldsError[key]
     return reigsterFieldsErrorTips[key][errorType] || ""
   }
@@ -151,6 +151,11 @@ export default function Register() {
     const res = await register(body)
     if (res.code === API_CODES.SUCCESS) {
       enqueueSnackbar("注册成功", { variant: "success" })
+      await new Promise(reslove => {
+        setTimeout(() => {
+          reslove("")
+        }, 1000)
+      })
       navigate("/login")
     } else if (res.code === API_CODES.REGISTER_TELEPHONE_REPEAT) {
       enqueueSnackbar("该手机号已被注册", { variant: "error" })
@@ -182,14 +187,14 @@ export default function Register() {
             <FormLabel>姓名</FormLabel>
             <TextField
               placeholder="请输入姓名"
-              error={getFieldsErrorState("userName")}
-              helperText={getFieldsErrorTip("userName")}
+              error={getFieldErrorState("userName")}
+              helperText={getFieldErrorTip("userName")}
               fullWidth
               variant="standard"
               size="small"
               value={reigsterFields["userName"]}
-              onChange={onReigsterFieldsChange("userName")}
-              onBlur={onReigsterFieldsBlur("userName")}
+              onChange={onReigsterFieldChange("userName")}
+              onBlur={onReigsterFieldBlur("userName")}
             />
           </FormControl>
           <FormControl>
@@ -197,14 +202,14 @@ export default function Register() {
             <TextField
               placeholder="请输入手机号码"
               required
-              error={getFieldsErrorState("telephoneNumber")}
-              helperText={getFieldsErrorTip("telephoneNumber")}
+              error={getFieldErrorState("telephoneNumber")}
+              helperText={getFieldErrorTip("telephoneNumber")}
               fullWidth
               variant="standard"
               size="small"
               value={reigsterFields["telephoneNumber"]}
-              onChange={onReigsterFieldsChange("telephoneNumber")}
-              onBlur={onReigsterFieldsBlur("telephoneNumber")}
+              onChange={onReigsterFieldChange("telephoneNumber")}
+              onBlur={onReigsterFieldBlur("telephoneNumber")}
             />
           </FormControl>
           <FormControl>
@@ -212,15 +217,15 @@ export default function Register() {
             <TextField
               placeholder="请输入密码"
               required
-              error={getFieldsErrorState("password")}
-              helperText={getFieldsErrorTip("password")}
+              error={getFieldErrorState("password")}
+              helperText={getFieldErrorTip("password")}
               fullWidth
               variant="standard"
               size="small"
               type="password"
               value={reigsterFields["password"]}
-              onChange={onReigsterFieldsChange("password")}
-              onBlur={onReigsterFieldsBlur("password")}
+              onChange={onReigsterFieldChange("password")}
+              onBlur={onReigsterFieldBlur("password")}
             />
           </FormControl>
 
@@ -229,15 +234,15 @@ export default function Register() {
             <TextField
               placeholder="请再次输入密码"
               required
-              error={getFieldsErrorState("doublePassword")}
-              helperText={getFieldsErrorTip("doublePassword")}
+              error={getFieldErrorState("doublePassword")}
+              helperText={getFieldErrorTip("doublePassword")}
               fullWidth
               variant="standard"
               size="small"
               type="password"
               value={reigsterFields["doublePassword"]}
-              onChange={onReigsterFieldsChange("doublePassword")}
-              onBlur={onReigsterFieldsBlur("doublePassword")}
+              onChange={onReigsterFieldChange("doublePassword")}
+              onBlur={onReigsterFieldBlur("doublePassword")}
             />
           </FormControl>
       
@@ -246,14 +251,14 @@ export default function Register() {
             <TextField
               placeholder="请输入门店名称"
               required
-              error={getFieldsErrorState("storeName")}
-              helperText={getFieldsErrorTip("storeName")}
+              error={getFieldErrorState("storeName")}
+              helperText={getFieldErrorTip("storeName")}
               fullWidth
               variant="standard"
               size="small"
               value={reigsterFields["storeName"]}
-              onChange={onReigsterFieldsChange("storeName")}
-              onBlur={onReigsterFieldsBlur("storeName")}
+              onChange={onReigsterFieldChange("storeName")}
+              onBlur={onReigsterFieldBlur("storeName")}
             />
           </FormControl>
           <FormControl>
@@ -261,23 +266,23 @@ export default function Register() {
             <TextField
               placeholder="请输入门店地址"
               required
-              error={getFieldsErrorState("storeAddress")}
-              helperText={getFieldsErrorTip("storeAddress")}
+              error={getFieldErrorState("storeAddress")}
+              helperText={getFieldErrorTip("storeAddress")}
               fullWidth
               variant="standard"
               size="small"
               value={reigsterFields["storeAddress"]}
-              onChange={onReigsterFieldsChange("storeAddress")}
-              onBlur={onReigsterFieldsBlur("storeAddress")}
+              onChange={onReigsterFieldChange("storeAddress")}
+              onBlur={onReigsterFieldBlur("storeAddress")}
             />
           </FormControl>
-          <Button
+          <AsyncButton
             fullWidth
             variant="contained"
             onClick={onSubmit}
           >
             注册
-          </Button>
+          </AsyncButton>
         </Box>
       </>
     </LoginConainter>

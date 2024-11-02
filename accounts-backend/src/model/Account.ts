@@ -1,21 +1,23 @@
-import { Model } from "sequelize";
+import { Model, Optional } from "sequelize";
 
 interface AccountAttributes {
-  id?: number;
+  id: string;
   telephone: string;
   password: string;
-  token?: string;
+  token: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-class Account extends Model<AccountAttributes, AccountAttributes> {
-  id?: number;
+type AccountCreationAttributes = Optional<AccountAttributes, "id" | "token" | "createdAt" | "updatedAt">
+
+class Account extends Model<AccountAttributes, AccountCreationAttributes> {
+  id!: string;
   telephone!: string;
   password!: string;
-  token?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  token!: string;
+  createdAt!: Date;
+  updatedAt!: Date;
 }
 
 export default Account

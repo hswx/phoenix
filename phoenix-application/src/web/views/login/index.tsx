@@ -1,208 +1,290 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import MuiCard from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
-import ForgotPassword from './ForgotPassword';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import FormLabel from "@mui/material/FormLabel";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import LoginConainter from "./../../components/LoginConainter";
+import { TEXT_FIELD_ERROR_TYPE } from "./../../utils/constants";
+import { register } from "./../../apis/auth";
+import API_CODES from "./../../utils/API_CODES";
+import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
+import AsyncButton from "./../../components/AsyncButton";
 
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  width: '100%',
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: 'auto',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: '450px',
-  },
-  boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-  ...theme.applyStyles('dark', {
-    boxShadow:
-      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-  }),
-}));
+export interface ReigsterFieldsData {
+  userName: string;
+  telephoneNumber: string;
+  password: string;
+  doublePassword: string;
+  storeName: string;
+  storeAddress: string;
+}
 
-const SignInContainer = styled(Stack)(({ theme }) => ({
-  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-  minHeight: '100%',
-  padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4),
-  },
-  '&::before': {
-    content: '""',
-    display: 'block',
-    position: 'absolute',
-    zIndex: -1,
-    inset: 0,
-    backgroundImage:
-      'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-    backgroundRepeat: 'no-repeat',
-    ...theme.applyStyles('dark', {
-      backgroundImage:
-        'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-    }),
-  },
-}));
+type ReigsterFieldsDataKeys = keyof ReigsterFieldsData
 
-export default function SignIn() {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [open, setOpen] = React.useState(false);
+export default function Register() {
+  const [reigsterFields, setReigsterFields] = React.useState<ReigsterFieldsData>({
+    userName: "",
+    telephoneNumber: "",
+    password: "",
+    doublePassword: "",
+    storeName: "",
+    storeAddress: "",
+  })
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [reigsterFieldsError, setReigsterFieldsError] = React.useState<Record<ReigsterFieldsDataKeys, TEXT_FIELD_ERROR_TYPE>>({
+    userName: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+    telephoneNumber: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+    password: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+    doublePassword: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+    storeName: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+    storeAddress: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+  })
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
+  const reigsterFieldsErrorTips: {
+    [reigsterFieldsKey in (ReigsterFieldsDataKeys)]: {
+      [errorTypeKey in TEXT_FIELD_ERROR_TYPE]?: string
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  } = {
+    userName: {
+      [TEXT_FIELD_ERROR_TYPE.REQUIRED]: "请输入姓名"
+    },
+    telephoneNumber: {
+      [TEXT_FIELD_ERROR_TYPE.REQUIRED]: "请输入手机号码",
+      [TEXT_FIELD_ERROR_TYPE.TELEPHONE_INVALID]: "手机号码不正确",
+    },
+    password: {
+      [TEXT_FIELD_ERROR_TYPE.REQUIRED]: "请输入密码",
+      [TEXT_FIELD_ERROR_TYPE.PASSWORD_LEN_8]: "密码长度至少8位",
+    },
+    doublePassword: {
+      [TEXT_FIELD_ERROR_TYPE.REQUIRED]: "请再次输入密码",
+      [TEXT_FIELD_ERROR_TYPE.DOUBLE_PASSWROD_NOT_COMPARE]: "两次密码不一致"
+    },
+    storeName: {
+      [TEXT_FIELD_ERROR_TYPE.REQUIRED]: "请输入门店名称",
+    },
+    storeAddress: {
+      [TEXT_FIELD_ERROR_TYPE.REQUIRED]: "请输入门店地址",
+    }
+  }
 
-  const validateInputs = () => {
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
+  const onReigsterFieldsChange = (key: ReigsterFieldsDataKeys) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReigsterFields(prev => ({
+      ...prev,
+      [key]: event.target.value
+    }))
+    setReigsterFieldsError(prev => ({
+      ...prev,
+      [key]: TEXT_FIELD_ERROR_TYPE.UNKNOWN
+    }))
+  }
 
-    let isValid = true;
-
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
+  const validateField = (key: ReigsterFieldsDataKeys) => (value: string) => {
+    let fieldsState = TEXT_FIELD_ERROR_TYPE.UNKNOWN
+    if (value) {
+      fieldsState = TEXT_FIELD_ERROR_TYPE.NORMAL
+      switch(key) {
+        case "telephoneNumber":
+          const regexp = /^1[3|4|5|7|8|9][0-9]\d{4,8}$/
+          if (!regexp.test(value)) {
+            fieldsState = TEXT_FIELD_ERROR_TYPE.TELEPHONE_INVALID
+          }
+          break;
+        case "password":
+          const length = value.length;
+          if (length < 8) {
+            fieldsState = TEXT_FIELD_ERROR_TYPE.PASSWORD_LEN_8
+          }
+          break;
+        case "doublePassword":
+          const passwordValue = reigsterFields.password
+          if (value !== passwordValue) {
+            fieldsState = TEXT_FIELD_ERROR_TYPE.DOUBLE_PASSWROD_NOT_COMPARE
+          }
+          break;
+        default:
+          break;
+      }
     } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
+      fieldsState = TEXT_FIELD_ERROR_TYPE.REQUIRED
     }
+    setReigsterFieldsError(prev => ({
+      ...prev,
+      [key]: fieldsState
+    }))
+    return fieldsState
+  }
 
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
+  const onReigsterFieldsBlur = (key: ReigsterFieldsDataKeys) => (event: React.FocusEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    validateField(key)(value);
+  }
+
+  const getFieldsErrorState = (key: ReigsterFieldsDataKeys) => {
+    return reigsterFieldsError[key] !== TEXT_FIELD_ERROR_TYPE.NORMAL && reigsterFieldsError[key] !== TEXT_FIELD_ERROR_TYPE.UNKNOWN
+  }
+
+  const getFieldsErrorTip = (key: ReigsterFieldsDataKeys) => {
+    const errorType = reigsterFieldsError[key]
+    return reigsterFieldsErrorTips[key][errorType] || ""
+  }
+
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+
+  const onSubmit = async () => {
+    const validateList = Object.keys(reigsterFields) as Array<ReigsterFieldsDataKeys>
+    let validatePass = true;
+    validateList.forEach(key => {
+      const validRes = validateField(key)(reigsterFields[key]);
+      if (validRes !== TEXT_FIELD_ERROR_TYPE.NORMAL) {
+        validatePass = false
+      }
+    })
+    if (!validatePass) {
+      return
     }
-
-    return isValid;
-  };
+    const body = {...reigsterFields}
+    delete body.doublePassword
+    const res = await register(body)
+    if (res.code === API_CODES.SUCCESS) {
+      enqueueSnackbar("注册成功", { variant: "success" })
+      await new Promise(reslove => {
+        setTimeout(() => {
+          reslove("")
+        }, 1000)
+      })
+      navigate("/login")
+    } else if (res.code === API_CODES.REGISTER_TELEPHONE_REPEAT) {
+      enqueueSnackbar("该手机号已被注册", { variant: "error" })
+    }
+  }
 
   return (
-      <SignInContainer direction="column" justifyContent="space-between">
-        <Card variant="outlined">
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
-          >
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              gap: 2,
-            }}
-          >
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                error={emailError}
-                helperText={emailErrorMessage}
-                id="email"
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                autoComplete="email"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={emailError ? 'error' : 'primary'}
-                sx={{ ariaLabel: 'email' }}
-              />
-            </FormControl>
-            <FormControl>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <Link
-                  component="button"
-                  type="button"
-                  onClick={handleClickOpen}
-                  variant="body2"
-                  sx={{ alignSelf: 'baseline' }}
-                >
-                  Forgot your password?
-                </Link>
-              </Box>
-              <TextField
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={passwordError ? 'error' : 'primary'}
-              />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <ForgotPassword open={open} handleClose={handleClose} />
-            <Button
-              type="submit"
+    <LoginConainter>
+      <>
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
+        >
+          注册
+        </Typography>
+        <Box
+          component="form"
+          autoComplete="off"
+          noValidate
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            gap: 2,
+          }}
+        >
+          <FormControl>
+            <FormLabel>姓名</FormLabel>
+            <TextField
+              placeholder="请输入姓名"
+              error={getFieldsErrorState("userName")}
+              helperText={getFieldsErrorTip("userName")}
               fullWidth
-              variant="contained"
-              onClick={validateInputs}
-            >
-              Sign in
-            </Button>
-            <Typography sx={{ textAlign: 'center' }}>
-              Don&apos;t have an account?{' '}
-              <span>
-                <Link
-                  href="/register"
-                  variant="body2"
-                  sx={{ alignSelf: 'center' }}
-                >
-                  Sign up
-                </Link>
-              </span>
-            </Typography>
-          </Box>
-        </Card>
-      </SignInContainer>
+              variant="standard"
+              size="small"
+              value={reigsterFields["userName"]}
+              onChange={onReigsterFieldsChange("userName")}
+              onBlur={onReigsterFieldsBlur("userName")}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="email">手机号</FormLabel>
+            <TextField
+              placeholder="请输入手机号码"
+              required
+              error={getFieldsErrorState("telephoneNumber")}
+              helperText={getFieldsErrorTip("telephoneNumber")}
+              fullWidth
+              variant="standard"
+              size="small"
+              value={reigsterFields["telephoneNumber"]}
+              onChange={onReigsterFieldsChange("telephoneNumber")}
+              onBlur={onReigsterFieldsBlur("telephoneNumber")}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="password">密码</FormLabel>
+            <TextField
+              placeholder="请输入密码"
+              required
+              error={getFieldsErrorState("password")}
+              helperText={getFieldsErrorTip("password")}
+              fullWidth
+              variant="standard"
+              size="small"
+              type="password"
+              value={reigsterFields["password"]}
+              onChange={onReigsterFieldsChange("password")}
+              onBlur={onReigsterFieldsBlur("password")}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel htmlFor="password">确认密码</FormLabel>
+            <TextField
+              placeholder="请再次输入密码"
+              required
+              error={getFieldsErrorState("doublePassword")}
+              helperText={getFieldsErrorTip("doublePassword")}
+              fullWidth
+              variant="standard"
+              size="small"
+              type="password"
+              value={reigsterFields["doublePassword"]}
+              onChange={onReigsterFieldsChange("doublePassword")}
+              onBlur={onReigsterFieldsBlur("doublePassword")}
+            />
+          </FormControl>
+      
+          <FormControl>
+            <FormLabel htmlFor="password">门店名称</FormLabel>
+            <TextField
+              placeholder="请输入门店名称"
+              required
+              error={getFieldsErrorState("storeName")}
+              helperText={getFieldsErrorTip("storeName")}
+              fullWidth
+              variant="standard"
+              size="small"
+              value={reigsterFields["storeName"]}
+              onChange={onReigsterFieldsChange("storeName")}
+              onBlur={onReigsterFieldsBlur("storeName")}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="password">门店地址</FormLabel>
+            <TextField
+              placeholder="请输入门店地址"
+              required
+              error={getFieldsErrorState("storeAddress")}
+              helperText={getFieldsErrorTip("storeAddress")}
+              fullWidth
+              variant="standard"
+              size="small"
+              value={reigsterFields["storeAddress"]}
+              onChange={onReigsterFieldsChange("storeAddress")}
+              onBlur={onReigsterFieldsBlur("storeAddress")}
+            />
+          </FormControl>
+          <AsyncButton
+            fullWidth
+            variant="contained"
+            onClick={onSubmit}
+          >
+            注册
+          </AsyncButton>
+        </Box>
+      </>
+    </LoginConainter>
   );
 }
