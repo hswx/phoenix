@@ -198,6 +198,7 @@ const Dashboard = () => {
           height: "100vh",
           display: "flex",
           flexDirection: "column",
+          overflow: "hidden",
         }}
       >
         <Toolbar />

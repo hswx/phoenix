@@ -8,9 +8,12 @@ import { useAppSelector } from "./../../../../../../stores";
 import apis from "./../../../../../../apis";
 import API_CODES from "./../../../../../../utils/API_CODES";
 import { useSnackbar } from "notistack";
+import { Food } from "../..";
+import { ImageAspectRatioSharp } from "@mui/icons-material";
 
 type EditFoodProps = {
-  foodId?: string
+  data?: Food
+  onDataUpdate: (e?: Partial<Food>) => void
 }
 const EditFood = (props: EditFoodProps) => {
   const [dialogVisible, setDialogVisible] = React.useState(false);
@@ -18,9 +21,10 @@ const EditFood = (props: EditFoodProps) => {
   const onDialogClose = () => setDialogVisible(false);
 
   return <>
-    <Button onClick={onDialogOpen}>{props.foodId ? "修改菜品" : "添加菜品"}</Button>
+    <Button onClick={onDialogOpen} variant="contained">{props.data?.id ? "修改菜品" : "添加菜品"}</Button>
     <EditFoodDialog
-      foodId={props.foodId}
+      data={props.data}
+      onDataUpdate={props.onDataUpdate}
       open={dialogVisible}
       onClose={onDialogClose}
     />
@@ -74,8 +78,7 @@ type FoodFields = {
   price: string;
 }
 type FoodFieldsKeys = keyof FoodFields
-type EditFoodDialogProps = {
-  foodId: string;
+interface EditFoodDialogProps extends EditFoodProps {
   open: boolean;
   onClose: () => void;
 }
@@ -179,14 +182,28 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
       return
     }
 
-    const res = await apis.food.createFood(storeId, {
+    const res = await (props.data ?
+      apis.food.updateFood(storeId, props.data.id, {
+        name: foodFields.name,
+        img: foodImage || undefined,
+        imgPath: foodFields.imgPath,
+        price: Number(foodFields.price),
+      }) :
+      await apis.food.createFood(storeId, {
         name: foodFields.name,
         img: foodImage,
         price: Number(foodFields.price),
     })
+    )
 
-    if (res.code === API_CODES.SUCCESS) {
+    if (res.code === API_CODES.SUCCESS && res.data) {
       enqueueSnackbar("菜品添加成功", {variant: "success"})
+      props.data ? props.onDataUpdate({
+        id: res.data.id,
+        name: res.data.name,
+        imgPath: res.data.imgPath,
+        price: res.data.price,
+      }) : props.onDataUpdate() 
       props.onClose()
     } else {
       enqueueSnackbar("菜品添加失败", {variant: "error"})
@@ -195,8 +212,13 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
 
   React.useEffect(() => {
     if (props.open) {
-      if (props.foodId) {
-
+      setFoodImage(null)
+      if (props.data?.id) {
+        setFoodFields({
+          name: props.data.name,
+          imgPath: props.data.imgPath,
+          price: props.data.price + "",
+        })
       } else {
         setFoodFields({
           name: "",
@@ -205,7 +227,7 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
         })
       }
     }
-  }, [props.open, props.foodId]);
+  }, [props.open, props.data?.id]);
 
   return (
     <Dialog
@@ -215,7 +237,7 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
       maxWidth="sm"
       fullWidth={true}
     >
-      <DialogTitle>{props.foodId ? "修改菜品": "添加菜品"}</DialogTitle>
+      <DialogTitle>{props.data?.id ? "修改菜品": "添加菜品"}</DialogTitle>
       <DialogContent dividers={true}>
       <Box
         component="form"
