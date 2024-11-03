@@ -1,5 +1,5 @@
 {
-  "name": "accounts-backend",
+  "name": "storage-backend",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,11 +9,9 @@
     "@types/express": "^5.0.0",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.8.2",
-    "axios": "^1.7.7",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "form-data": "^4.0.1",
     "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.1",

@@ -5,4 +5,6 @@ export const DB_HOST = "127.0.0.1"
 export const DB_PORT = "3306"
 export const DB_TYPE = "mysql"
 
-export const JWT_SCRECT = Buffer.from("phoenix", "base64");
+export const JWT_SCRECT = Buffer.from("phoenix", "base64")
+
+export const FILE_SERVICE_HOST = "http://127.0.0.1:3002"

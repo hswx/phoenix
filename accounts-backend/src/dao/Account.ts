@@ -32,7 +32,7 @@ const initAccount = function (sequelize: Sequelize) {
       sequelize,
       underscored: true,
       timestamps: true,
-      modelName: "account",
+      modelName: "accounts",
     }
   );
 };

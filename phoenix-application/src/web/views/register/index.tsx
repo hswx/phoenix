@@ -215,7 +215,7 @@ export default function Register() {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="password">密码</FormLabel>
+            <FormLabel>密码</FormLabel>
             <TextField
               placeholder="请输入密码"
               required
@@ -232,7 +232,7 @@ export default function Register() {
           </FormControl>
 
           <FormControl>
-            <FormLabel htmlFor="password">确认密码</FormLabel>
+            <FormLabel>确认密码</FormLabel>
             <TextField
               placeholder="请再次输入密码"
               required
@@ -249,7 +249,7 @@ export default function Register() {
           </FormControl>
       
           <FormControl>
-            <FormLabel htmlFor="password">门店名称</FormLabel>
+            <FormLabel>门店名称</FormLabel>
             <TextField
               placeholder="请输入门店名称"
               required
@@ -264,7 +264,7 @@ export default function Register() {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="password">门店地址</FormLabel>
+            <FormLabel>门店地址</FormLabel>
             <TextField
               placeholder="请输入门店地址"
               required

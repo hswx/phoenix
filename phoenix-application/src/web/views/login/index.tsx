@@ -164,7 +164,7 @@ export default function Login() {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="password">密码</FormLabel>
+            <FormLabel>密码</FormLabel>
             <TextField
               placeholder="请输入密码"
               required

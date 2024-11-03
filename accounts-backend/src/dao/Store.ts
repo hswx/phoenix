@@ -1,5 +1,4 @@
 import { DataTypes, Sequelize } from "sequelize";
-import { encodeWithHash } from "./../utils/crypto";
 import Store from "./../model/Store";
 import Account from "./../model/Account";
 
@@ -25,6 +24,7 @@ const initStore = function (sequelize: Sequelize) {
       },
       accountId: {
         type: DataTypes.UUID,
+        allowNull: false,
         references: {
           model: Account,
           key: 'id'
@@ -35,7 +35,7 @@ const initStore = function (sequelize: Sequelize) {
       sequelize,
       underscored: true,
       timestamps: true,
-      modelName: "store",
+      modelName: "stores",
     }
   );
 };

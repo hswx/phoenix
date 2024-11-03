@@ -100,7 +100,22 @@ const UpdateStoreDialog = (props: UpdateStoreDialogProps) => {
   const storeId = useAppSelector(state => state.Root.storeId)
 
   const onSubmit = async () => {
-    if (storeId) {
+    if (!storeId) {
+      return
+    }
+
+    const validateList = Object.keys(storeFields) as Array<StoreFieldsDataKeys>
+    let validatePass = true;
+    validateList.forEach(key => {
+      const validRes = validateField(key)(storeFields[key]);
+      if (validRes !== TEXT_FIELD_ERROR_TYPE.NORMAL) {
+        validatePass = false
+      }
+    })
+    if (!validatePass) {
+      return
+    }
+
       const res = await apis.store.updateStoreInfo(storeId, {
         name: storeFields.storeName,
         address: storeFields.storeAddress,
@@ -114,10 +129,9 @@ const UpdateStoreDialog = (props: UpdateStoreDialogProps) => {
           storeAddress: storeFields.storeAddress,
         })
         props.onClose()
-        return
+      }else {
+        enqueueSnackbar("门店信息修改失败", {variant: "error"})
       }
-    }
-    enqueueSnackbar("门店信息修改失败", {variant: "error"})
   }
 
   React.useEffect(() => {
@@ -169,7 +183,7 @@ const UpdateStoreDialog = (props: UpdateStoreDialogProps) => {
       
       
           <FormControl>
-            <FormLabel htmlFor="password">门店名称</FormLabel>
+            <FormLabel>门店名称</FormLabel>
             <TextField
               placeholder="请输入门店名称"
               required
@@ -184,7 +198,7 @@ const UpdateStoreDialog = (props: UpdateStoreDialogProps) => {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="password">门店地址</FormLabel>
+            <FormLabel>门店地址</FormLabel>
             <TextField
               placeholder="请输入门店地址"
               required

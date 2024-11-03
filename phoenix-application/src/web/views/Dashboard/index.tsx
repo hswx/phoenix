@@ -23,12 +23,12 @@ import UpdateStoreDialog, { StoreFieldsData } from "./components/UpdateStoreDial
 const drawerWidth = 200;
 const routes = [
   {
-    name: "员工管理",
-    href: "/",
+    name: "菜品管理",
+    href: "/food-manage",
   },
 ];
 
-export default function Dashboard() {
+const Dashboard = () => {
   const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = (event: React.MouseEvent<HTMLElement>) => {
     setMenuAnchorEl(event.currentTarget)
@@ -208,3 +208,5 @@ export default function Dashboard() {
     </Box>
   );
 }
+
+export default Dashboard

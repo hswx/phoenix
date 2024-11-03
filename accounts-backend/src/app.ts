@@ -6,8 +6,7 @@ import API_CODES from "./utils/API_CODES";
 import jwt from "jsonwebtoken";
 import { JWT_SCRECT } from "./utils/config";
 import Account from "./model/Account";
-
-var cookieParser = require("cookie-parser");
+import foodRouter from "./routes/food";
 
 (async () => {
   await initDB();
@@ -17,7 +16,6 @@ var app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -82,5 +80,6 @@ app.use(async (req, res, next) => {
 
 app.use("/auth", authRouter);
 app.use("/store", storeRouter);
+app.use("/food", foodRouter);
 
 module.exports = app;
