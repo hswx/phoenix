@@ -116,7 +116,7 @@ const UpdateStoreDialog = (props: UpdateStoreDialogProps) => {
       return
     }
 
-      const res = await apis.store.updateStoreInfo(storeId, {
+      const res = await apis.store.updateStoreInfo({id: storeId}, {
         name: storeFields.storeName,
         address: storeFields.storeAddress,
         ownerName: storeFields.ownerName,
@@ -141,6 +141,11 @@ const UpdateStoreDialog = (props: UpdateStoreDialogProps) => {
         ownerName: originalStoreInfo.ownerName,
         storeName: originalStoreInfo.storeName,
         storeAddress: originalStoreInfo.storeAddress,
+      })
+      setStoreFieldsError({
+        ownerName: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+        storeName: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+        storeAddress: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
       })
     }
   }, [props.open]);

@@ -1,4 +1,4 @@
-import express, { Request } from 'express';
+import express from 'express';
 import Account from './../model/Account';
 import API_CODES from './../utils/API_CODES';
 import { UniqueConstraintError } from 'sequelize';
@@ -6,17 +6,18 @@ import Store from './../model/Store';
 import jwt from "jsonwebtoken";
 import { encodeWithHash } from './../utils/crypto';
 import { JWT_SCRECT } from './../utils/config';
+import { commonResponse, generateResponse } from './../utils';
 
 const router = express.Router();
 
-type registerBody = {
+type registerRequestBody = {
   userName: string;
   telephoneNumber: string;
   password: string;
   storeName: string;
   storeAddress: string;
 }
-router.post('/register', async function(req: Request<{}, {}, registerBody>, res) {
+router.post<string, undefined, commonResponse, registerRequestBody>('/register', async function(req, res) {
   const body = req.body
   try {
     const saveAccountRes = await new Account({
@@ -29,21 +30,24 @@ router.post('/register', async function(req: Request<{}, {}, registerBody>, res)
       address: body.storeAddress,
       accountId: saveAccountRes.dataValues.id,
     }).save()
-    res.sendResponse(API_CODES.SUCCESS)
+    res.status(200).send(generateResponse(API_CODES.SUCCESS));
   } catch (e) {
     if (e instanceof UniqueConstraintError && e.errors.find(item => item.path === "telephone")) {
-      res.sendResponse(API_CODES.REGISTER_TELEPHONE_REPEAT, undefined, "手机号码已存在")
+      res.status(200).send(generateResponse(API_CODES.REGISTER_TELEPHONE_REPEAT, undefined, "手机号码已存在"))
     } else {
       throw e;
     }
   }
 });
 
-type loginBody = {
+type loginRequestBody = {
   telephoneNumber: string;
   password: string;
 }
-router.post("/login", async function(req: Request<{}, {}, loginBody>, res) {
+type loginResponse = {
+  token: string;
+}
+router.post<string, undefined, commonResponse<loginResponse | undefined>, loginRequestBody>("/login", async function(req, res) {
   const body = req.body;
   const account = await Account.findOne({
     where: {
@@ -52,18 +56,21 @@ router.post("/login", async function(req: Request<{}, {}, loginBody>, res) {
     }
   })
   if (account) {
-    res.sendResponse(API_CODES.SUCCESS, {
-      token: jwt.sign(
-        {
-          token: account.dataValues.token
-        },
-        JWT_SCRECT,
-        {
-          expiresIn: '8h',
-        })
-    })
+    res.status(200).send(generateResponse(
+      API_CODES.SUCCESS,
+      {
+        token: jwt.sign(
+          {
+            token: account.dataValues.token
+          },
+          JWT_SCRECT,
+          {
+            expiresIn: '8h',
+          })
+      }
+    ))
   } else {
-    res.sendResponse(API_CODES.LOGIN_ACCOUNT_ERROR, undefined, '账号密码错误')
+    res.status(200).send(generateResponse(API_CODES.LOGIN_ACCOUNT_ERROR, undefined, '账号密码错误'))
   }
 })
 

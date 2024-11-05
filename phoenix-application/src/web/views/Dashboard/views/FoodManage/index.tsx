@@ -1,10 +1,12 @@
 import React from "react";
-import { Box, Button, Divider, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import EditFood from "./components/menus/EditFood";
 import FoodTable from "./components/FoodTable";
 import apis from "./../../../../apis";
 import { useAppSelector } from "./../../../../stores";
 import API_CODES from "./../../../../utils/API_CODES";
+import DeleteFood from "./components/menus/DeleteFood";
+import SoldOutFood from "./components/menus/SoldOutFood";
 
 export type Food = {
   id: string;
@@ -21,7 +23,7 @@ const FoodManage = () => {
   const storeId = useAppSelector(state => state.Root.storeId)
 
   const getFoodList = async () => {
-    const res = await apis.food.getFoodList(storeId);
+    const res = await apis.food.getFoodList({storeId});
     if (res.code === API_CODES.SUCCESS && res.data){
       setFoodList(res.data);
     }
@@ -58,6 +60,11 @@ const FoodManage = () => {
     <Stack direction="row" spacing={2}>
       {selectedFoodList.length === 0 && <EditFood onDataUpdate={getFoodList}/>}
       {selectedFoodList.length === 1 && <EditFood data={selectedFoodList[0]} onDataUpdate={onSelectedFoodUpate}/>}
+      {selectedFoodIds.length > 0 && <>
+        <DeleteFood foodIds={selectedFoodIds} onDeleted={getFoodList} />
+        <SoldOutFood foodIds={selectedFoodIds} onSoldOuted={getFoodList} soldOut={true}/>
+        <SoldOutFood foodIds={selectedFoodIds} onSoldOuted={getFoodList} soldOut={false}/>
+      </>}
     </Stack>
     <Box sx={{marginTop: 2, flexGrow: 1, width: "100%"}}>
       <FoodTable data={foodList} selectedIds={selectedFoodIds} onSelectedIdsChanged={onSetSelectedFoodIdsChanged}/>

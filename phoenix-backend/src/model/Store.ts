@@ -1,7 +1,7 @@
-import { Model } from "sequelize";
+import { Model, Optional } from "sequelize";
 
 interface StoreAttributes {
-  id?: string;
+  id: string;
   name: string;
   address: string;
   ownerName: string;
@@ -10,14 +10,16 @@ interface StoreAttributes {
   updatedAt?: Date;
 }
 
-class Store extends Model<StoreAttributes, StoreAttributes> {
-  id?: number;
+type StoreCreationAttributes = Optional<StoreAttributes, "id" | "createdAt" | "updatedAt">
+
+class Store extends Model<StoreAttributes, StoreCreationAttributes> {
+  id!: number;
   name!: string;
   address!: string;
   ownerName!: string;
   accountId!: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt!: Date;
+  updatedAt!: Date;
 }
 
 export default Store

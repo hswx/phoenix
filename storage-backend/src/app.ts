@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -24,15 +24,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/upload", upload.single("file"), (req: Request, res: any) => {
-  if (!req.file) {
-    return res.status(400);
+app.post("/upload", upload.single("file"), (req, res) => {
+  if (req.file) {
+    res.json({
+      message: "文件上传成功",
+      filename: req.file.filename,
+    });
+  } else {
+    res.status(400);
   }
-
-  res.json({
-    message: "文件上传成功",
-    filename: req.file.filename,
-  });
 });
 
 module.exports = app;

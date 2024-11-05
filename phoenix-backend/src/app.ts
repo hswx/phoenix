@@ -20,36 +20,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Headers", "*");
-  res.setHeader("Access-Control-Allow-Methods", ["POST", "GET", "PUT", "DELETE"])
+  res.setHeader("Access-Control-Allow-Methods", ["POST", "GET", "PUT", "DELETE", "PATCH"])
 
   if (req.method === "OPTIONS") {
     res.sendStatus(204);
   } else {
     next();
   }
-});
-
-declare global {
-  namespace Express {
-    interface Response {
-      sendResponse<T>(
-        code: API_CODES,
-        data?: T,
-        message?: string,
-      ): Response;
-    }
-  }
-}
-app.use((req, res, next) => {
-  res.sendResponse = <T>(code: API_CODES, data?: T, message?: string) => {
-    const responseBody = {
-        code,
-        data,
-        message: code === API_CODES.SUCCESS ? "Success": message
-    }
-    return res.status(200).json(responseBody);
-  };
-  next(); 
 });
 
 app.use(async (req, res, next) => {

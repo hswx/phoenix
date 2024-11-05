@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormHelperText, FormLabel, IconButton, Input, InputAdornment, InputLabel, styled, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormHelperText, FormLabel, IconButton, Input, InputAdornment, styled, TextField } from "@mui/material";
 import { TEXT_FIELD_ERROR_TYPE } from "./../../../../../../utils/constants";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -9,7 +9,6 @@ import apis from "./../../../../../../apis";
 import API_CODES from "./../../../../../../utils/API_CODES";
 import { useSnackbar } from "notistack";
 import { Food } from "../..";
-import { ImageAspectRatioSharp } from "@mui/icons-material";
 
 type EditFoodProps = {
   data?: Food
@@ -159,6 +158,10 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
             ...prev,
             imgPath: file.name
           }))
+          setFoodFieldsError(prev => ({
+            ...prev,
+            imgPath: TEXT_FIELD_ERROR_TYPE.NORMAL,
+          }))
         }
   }
 
@@ -182,37 +185,52 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
       return
     }
 
-    const res = await (props.data ?
-      apis.food.updateFood(storeId, props.data.id, {
+    if (props.data) {
+      const res = await apis.food.updateFood({
+        storeId,
+        foodId: props.data.id,
+      }, {
         name: foodFields.name,
         img: foodImage || undefined,
         imgPath: foodFields.imgPath,
         price: Number(foodFields.price),
-      }) :
-      await apis.food.createFood(storeId, {
+      })
+      if (res.code === API_CODES.SUCCESS && res.data) {
+        enqueueSnackbar("菜品修改成功", {variant: "success"})
+        props.onDataUpdate({
+          id: res.data.id,
+          name: res.data.name,
+          imgPath: res.data.imgPath,
+          price: res.data.price,
+        })
+        props.onClose()
+      } else {
+        enqueueSnackbar("菜品修改失败", {variant: "error"})
+      }
+    } else {
+      const res = await apis.food.createFood({storeId}, {
         name: foodFields.name,
         img: foodImage,
-        price: Number(foodFields.price),
-    })
-    )
-
-    if (res.code === API_CODES.SUCCESS && res.data) {
-      enqueueSnackbar("菜品添加成功", {variant: "success"})
-      props.data ? props.onDataUpdate({
-        id: res.data.id,
-        name: res.data.name,
-        imgPath: res.data.imgPath,
-        price: res.data.price,
-      }) : props.onDataUpdate() 
-      props.onClose()
-    } else {
-      enqueueSnackbar("菜品添加失败", {variant: "error"})
+        price: Number(foodFields.price)
+      })
+      if (res.code === API_CODES.SUCCESS && res.data) {
+        enqueueSnackbar("菜品添加成功", {variant: "success"})
+        props.onDataUpdate()
+        props.onClose()
+      } else {
+        enqueueSnackbar("菜品添加失败", {variant: "error"})
+      }
     }
   }
 
   React.useEffect(() => {
     if (props.open) {
       setFoodImage(null)
+      setFoodFieldsError({
+        name: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+        imgPath: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+        price: TEXT_FIELD_ERROR_TYPE.UNKNOWN,
+      })
       if (props.data?.id) {
         setFoodFields({
           name: props.data.name,
