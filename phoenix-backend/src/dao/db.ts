@@ -10,6 +10,8 @@ import initCategory from "./Category";
 import initFoodCategory from "./FoodCategory";
 import FoodCategory from "./../model/FoodCategory";
 import Category from "./../model/Category";
+import initEmployee from "./Employee";
+import Employee from "./../model/Employee";
 
 const sequelize = new Sequelize(
     dbConfig.DB_NAME,
@@ -40,6 +42,7 @@ export async function initDB() {
   initFood(sequelize);
   initCategory(sequelize);
   initFoodCategory(sequelize);
+  initEmployee(sequelize);
 
   Account.hasOne(Store);
   Store.belongsTo(Account);
@@ -57,6 +60,9 @@ export async function initDB() {
   Food.belongsTo(FoodCategory);
   FoodCategory.hasMany(Category);
   Food.belongsTo(FoodCategory);
+
+  Store.hasMany(Employee);
+  Employee.belongsTo(Store);
 
   await sequelize.sync({});
 

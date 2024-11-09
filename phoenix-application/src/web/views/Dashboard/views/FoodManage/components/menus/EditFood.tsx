@@ -1,7 +1,6 @@
 import React from "react"
 import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, IconButton, Input, InputAdornment, MenuItem, Select, SelectChangeEvent, styled, TextField } from "@mui/material";
 import { Cuisine, Flavor, TEXT_FIELD_ERROR_TYPE } from "./../../../../../../utils/constants";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AsyncButton from "./../../../../../../components/AsyncButton";
 import { useAppSelector } from "./../../../../../../stores";
@@ -41,35 +40,6 @@ const VisuallyHiddenInput = styled('input')({
   whiteSpace: 'nowrap',
   width: 1,
 });
-
-interface CustomProps {
-  onChange: (event: { target: { name: string; value: string } }) => void;
-  name: string;
-}
-
-const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
-  function NumericFormatCustom(props, ref) {
-    const { onChange, ...other } = props;
-
-    return (
-      <NumericFormat
-        {...other}
-        getInputRef={ref}
-        onValueChange={(values) => {
-          onChange({
-            target: {
-              name: props.name,
-              value: values.value,
-            },
-          });
-        }}
-        thousandSeparator
-        valueIsNumericString
-        prefix=""
-      />
-    );
-  },
-);
 
 type FoodFields = {
   name: string;
@@ -363,11 +333,7 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
             placeholder="请输入菜品价格"
             value={foodFields.price}
             onChange={onFoodFieldChange("price")}
-            slotProps={{
-              input: {
-                inputComponent: NumericFormatCustom as any,
-              },
-            }}
+            type="number"
             variant="standard"
             error={getFieldErrorState("price")}
             helperText={getFieldErrorTip("price")}

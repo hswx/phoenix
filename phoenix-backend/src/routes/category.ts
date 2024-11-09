@@ -192,7 +192,6 @@ router.put<string, updateCategoryRequestParam, commonResponse, updateCategoryReq
   const categoryId = req.params.categoryId
   const storeId = req.query.storeId
   const body = req.body
-  console.log(1001, categoryId, storeId)
   const category = await Category.findOne({
     where: {
       id: categoryId,

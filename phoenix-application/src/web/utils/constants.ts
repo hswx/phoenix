@@ -39,3 +39,8 @@ export enum CategoryType {
   SELECTED_CATEGORY,
   DYNAMIC_CATEGORY,
 }
+
+export enum EmployeeSex {
+  MALE,
+  FEMALE
+}

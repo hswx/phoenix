@@ -83,11 +83,16 @@ const fields = [
     ],
   },
   {
+    name: 'price',
+    label: '价格',
+    operators: defaultOperators.filter((op) => ["=", "!=", "<", ">", "<=", ">=", "between", "notBetween"].includes(op.name)),
+    inputType: 'number'
+  },
+  {
     name: 'created_at',
     label: '创建时间',
     inputType: 'datetime-local',
     operators: defaultOperators.filter((op) => !["contains", "beginsWith", "endsWith", "doesNotContain", "doesNotBeginWith", "doesNotEndWith", "null", "notNull", "in", "notIn"].includes(op.name)),
-
   }
 ] as Field[]
 

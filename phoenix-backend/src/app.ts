@@ -7,6 +7,7 @@ import { JWT_SCRECT } from "./utils/config";
 import Account from "./model/Account";
 import foodRouter from "./routes/food";
 import categoryRouter from "./routes/category";
+import employeeRouter from "./routes/employee";
 
 (async () => {
   await initDB();
@@ -59,5 +60,6 @@ app.use("/auth", authRouter);
 app.use("/store", storeRouter);
 app.use("/food", foodRouter);
 app.use("/category", categoryRouter);
+app.use("/employee", employeeRouter);
 
 module.exports = app;
