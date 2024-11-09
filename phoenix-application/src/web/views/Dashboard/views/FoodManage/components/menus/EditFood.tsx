@@ -1,6 +1,6 @@
 import React from "react"
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormHelperText, FormLabel, IconButton, Input, InputAdornment, styled, TextField } from "@mui/material";
-import { TEXT_FIELD_ERROR_TYPE } from "./../../../../../../utils/constants";
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, IconButton, Input, InputAdornment, MenuItem, Select, SelectChangeEvent, styled, TextField } from "@mui/material";
+import { Cuisine, Flavor, TEXT_FIELD_ERROR_TYPE } from "./../../../../../../utils/constants";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AsyncButton from "./../../../../../../components/AsyncButton";
@@ -75,8 +75,10 @@ type FoodFields = {
   name: string;
   imgPath: string;
   price: string;
+  flavor: Set<Flavor>;
+  cuisine: Cuisine;
 }
-type FoodFieldsKeys = keyof FoodFields
+type FoodFieldsKeys = keyof Omit<FoodFields, 'flavor' | 'cuisine'>
 interface EditFoodDialogProps extends EditFoodProps {
   open: boolean;
   onClose: () => void;
@@ -86,6 +88,8 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
     name: "",
     imgPath: "",
     price: "",
+    flavor: new Set(),
+    cuisine: Cuisine.UNKNOWN,
   })
 
   const [foodFieldsError, setFoodFieldsError] = React.useState<Record<FoodFieldsKeys, TEXT_FIELD_ERROR_TYPE>>({
@@ -165,6 +169,35 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
         }
   }
 
+  const onCuisineChange = (event: SelectChangeEvent) => {
+    const value = event.target.value
+    setFoodFields(prev => {
+      return {
+        ...prev,
+        cuisine: Number(value) as Cuisine
+      }
+    })
+  };
+
+  const isFlavorChecked = (curFlavor: Flavor) => {
+    return foodFields.flavor.has(curFlavor);
+  }
+  const onFlavorChecked = (curFlavor: Flavor) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = event.target.checked;
+    setFoodFields(prev => {
+      const list = new Set(prev.flavor.values());
+      if (checked) {
+        list.add(curFlavor)
+      } else {
+        list.delete(curFlavor)
+      }
+      return {
+        ...prev,
+        flavor: list
+      }
+    })
+  }
+
   const storeId = useAppSelector(state => state.Root.storeId)
 
   const { enqueueSnackbar } = useSnackbar()
@@ -194,6 +227,8 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
         img: foodImage || undefined,
         imgPath: foodFields.imgPath,
         price: Number(foodFields.price),
+        cuisine: foodFields.cuisine,
+        flavor: Array.from(foodFields.flavor),
       })
       if (res.code === API_CODES.SUCCESS && res.data) {
         enqueueSnackbar("菜品修改成功", {variant: "success"})
@@ -202,6 +237,8 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
           name: res.data.name,
           imgPath: res.data.imgPath,
           price: res.data.price,
+          cuisine: res.data.cuisine,
+          flavor: res.data.flavor,
         })
         props.onClose()
       } else {
@@ -211,7 +248,9 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
       const res = await apis.food.createFood({storeId}, {
         name: foodFields.name,
         img: foodImage,
-        price: Number(foodFields.price)
+        price: Number(foodFields.price),
+        cuisine: foodFields.cuisine,
+        flavor: Array.from(foodFields.flavor),
       })
       if (res.code === API_CODES.SUCCESS && res.data) {
         enqueueSnackbar("菜品添加成功", {variant: "success"})
@@ -236,12 +275,16 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
           name: props.data.name,
           imgPath: props.data.imgPath,
           price: props.data.price + "",
+          flavor: new Set(props.data.flavor.map(item => Number(item))),
+          cuisine: props.data.cuisine,
         })
       } else {
         setFoodFields({
           name: "",
           imgPath: "",
-          price: ""
+          price: "",
+          flavor: new Set(),
+          cuisine: Cuisine.UNKNOWN,
         })
       }
     }
@@ -331,6 +374,48 @@ const EditFoodDialog = (props: EditFoodDialogProps) => {
             onBlur={onFoodFieldBlur("price")}
           />
         </FormControl>
+        <FormControl focused={false}>
+          <FormLabel>菜系</FormLabel>
+          <Select
+            variant="standard"
+            sx={{marginTop: "0 !important"}}
+            value={foodFields.cuisine + ""}
+            onChange={onCuisineChange}
+          >
+            <MenuItem value={Cuisine.UNKNOWN}>默认</MenuItem>
+            <MenuItem value={Cuisine.CHUAN_CAI + ""}>川菜</MenuItem>
+            <MenuItem value={Cuisine.HUI_CAI + ""}>徽菜</MenuItem>
+            <MenuItem value={Cuisine.LU_CAI + ""}>鲁菜</MenuItem>
+            <MenuItem value={Cuisine.MIN_CAI + ""}>闽菜</MenuItem>
+            <MenuItem value={Cuisine.SU_CAI + ""}>苏菜</MenuItem>
+            <MenuItem value={Cuisine.XIANG_CAI + ""}>湘菜</MenuItem>
+            <MenuItem value={Cuisine.YUE_CAI + ""}>粤菜</MenuItem>
+            <MenuItem value={Cuisine.ZHE_CAI + ""}>浙菜</MenuItem>
+          </Select>
+        </FormControl>
+          <FormControl focused={false}>
+            <FormLabel>口味</FormLabel>
+            <FormGroup sx={{display: 'flex', flexDirection: "row"}}>
+              <FormControlLabel
+                control={
+                  <Checkbox checked={isFlavorChecked(Flavor.SWEET)} onChange={onFlavorChecked(Flavor.SWEET)} />
+                }
+                label="甜"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox checked={isFlavorChecked(Flavor.SOUR)} onChange={onFlavorChecked(Flavor.SOUR)} />
+                }
+                label="酸"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox checked={isFlavorChecked(Flavor.SPICY)} onChange={onFlavorChecked(Flavor.SPICY)}/>
+                }
+                label="辣"
+              />
+            </FormGroup>
+          </FormControl>
       </Box>
       </DialogContent>
       <DialogActions>

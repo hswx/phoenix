@@ -16,3 +16,26 @@ export interface ApiResponse<T = unknown> {
 }
 
 export const LOGIN_TOKEN_NAME = "phoenix-token"
+
+export enum Cuisine {
+  UNKNOWN,
+  LU_CAI,
+  CHUAN_CAI,
+  YUE_CAI,
+  SU_CAI,
+  MIN_CAI,
+  ZHE_CAI,
+  XIANG_CAI,
+  HUI_CAI,
+}
+
+export enum Flavor {
+  SWEET,
+  SOUR,
+  SPICY,
+}
+
+export enum CategoryType {
+  SELECTED_CATEGORY,
+  DYNAMIC_CATEGORY,
+}

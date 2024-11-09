@@ -6,37 +6,60 @@ import Account from "./../model/Account";
 import Store from "./../model/Store";
 import Food from "./../model/Food";
 import initFood from "./Food";
+import initCategory from "./Category";
+import initFoodCategory from "./FoodCategory";
+import FoodCategory from "./../model/FoodCategory";
+import Category from "./../model/Category";
+
+const sequelize = new Sequelize(
+    dbConfig.DB_NAME,
+    dbConfig.USER_NAME,
+    dbConfig.DB_PASSWORD,
+    {
+      host: dbConfig.DB_HOST,
+      dialect: dbConfig.DB_TYPE,
+      pool: {
+        max: 20,
+        min: 1,
+      },
+      define: {
+        charset: "utf8",
+      },
+    }
+);
 
 export async function initDB() {
-    const sequelize = new Sequelize(dbConfig.DB_NAME, dbConfig.USER_NAME, dbConfig.DB_PASSWORD, {
-        host: dbConfig.DB_HOST,
-        dialect: dbConfig.DB_TYPE,
-        pool: {
-            max: 20,
-            min: 1,
-        },
-        define: {
-            charset: 'utf8',
-        }
-    });
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-    initAccount(sequelize);
-    initStore(sequelize);
-    initFood(sequelize);
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+  initAccount(sequelize);
+  initStore(sequelize);
+  initFood(sequelize);
+  initCategory(sequelize);
+  initFoodCategory(sequelize);
 
-    Account.hasOne(Store)
-    Store.belongsTo(Account);
+  Account.hasOne(Store);
+  Store.belongsTo(Account);
 
-    Store.hasMany(Food);
-    Food.belongsTo(Store);
+  Store.hasMany(Food);
+  Food.belongsTo(Store);
 
-    await sequelize.sync();
+  Store.hasMany(Category);
+  Category.belongsTo(Store);
+
+  Store.hasMany(FoodCategory);
+  FoodCategory.belongsTo(Store);
+
+  FoodCategory.hasMany(Food);
+  Food.belongsTo(FoodCategory);
+  FoodCategory.hasMany(Category);
+  Food.belongsTo(FoodCategory);
+
+  await sequelize.sync({});
+
 }
 
-
-  
+export default sequelize

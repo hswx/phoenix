@@ -1,9 +1,9 @@
 import { DataTypes, Sequelize } from "sequelize";
-import Food, { Cuisine } from "./../model/Food";
+import Category from "./../model/Category";
 import Store from "./../model/Store";
 
-const initFood = function (sequelize: Sequelize) {
-  Food.init(
+const initCategory = function (sequelize: Sequelize) {
+  Category.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -22,28 +22,13 @@ const initFood = function (sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      imgPath: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      query: {
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
-      price: {
-        type: DataTypes.FLOAT,
+      ruleType: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-      },
-      cuisine: {
-       type: DataTypes.INTEGER,
-       allowNull: false,
-       defaultValue: Cuisine.UNKNOWN,
-      },
-      flavor: {
-        type: DataTypes.JSON,
-        allowNull: false,
-        defaultValue: [],
-      },
-      soldOut: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
       },
       deleted: {
         type: DataTypes.BOOLEAN,
@@ -55,9 +40,9 @@ const initFood = function (sequelize: Sequelize) {
       sequelize,
       underscored: true,
       timestamps: true,
-      modelName: "foods",
+      modelName: "categories",
     }
   );
 };
 
-export default initFood;
+export default initCategory;

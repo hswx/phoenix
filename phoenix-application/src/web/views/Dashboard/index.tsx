@@ -26,6 +26,14 @@ const routes = [
     name: "菜品管理",
     href: "/food-manage",
   },
+  {
+    name: "菜品分类",
+    href: "/category-manage"
+  },
+  {
+    name: "员工管理",
+    href: "/employee-manage"
+  },
 ];
 
 const Dashboard = () => {

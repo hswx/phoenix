@@ -3,7 +3,7 @@ import API_CODES from '../utils/API_CODES';
 import axios, { AxiosResponse } from "axios";
 import multer from "multer";
 import FormData from 'form-data';
-import Food from './../model/Food';
+import Food, { Cuisine, Flavor } from './../model/Food';
 import { FILE_SERVICE_HOST } from './../utils/config';
 import { commonResponse, generateResponse } from './../utils';
 import { Op } from 'sequelize';
@@ -24,11 +24,15 @@ type createFoodRequestBody = {
   name: string;
   img: File;
   price: number;
+  flavor: Flavor[];
+  cuisine: Cuisine;
 }
 type createFoodResponse = {
   name: string;
   imgPath: string;
   price: number;
+  flavor: Flavor[];
+  cuisine: Cuisine;
 }
 router.post<string, createFoodRequestParam, commonResponse<createFoodResponse>, createFoodRequestBody>("/create/:storeId", upload.single('img'), async function(req, res) {
   const storeId = req.params.storeId
@@ -50,7 +54,9 @@ router.post<string, createFoodRequestParam, commonResponse<createFoodResponse>, 
         storeId,
         name: body.name,
         price: body.price,
-        imgPath: `${FILE_SERVICE_HOST}/uploads/` + path
+        imgPath: `${FILE_SERVICE_HOST}/uploads/` + path,
+        cuisine: body.cuisine,
+        flavor: body.flavor,
       }).save();
 
       const dataValue = food.dataValues;
@@ -61,13 +67,14 @@ router.post<string, createFoodRequestParam, commonResponse<createFoodResponse>, 
           name: dataValue.name,
           price: dataValue.price,
           imgPath: dataValue.imgPath,
+          flavor: dataValue.flavor,
+          cuisine: dataValue.cuisine,
         }
       ))
     } else {
       throw Error()
     }
 })
-
 
 type updateFoodRequestParam = {
   storeId: string;
@@ -78,12 +85,16 @@ type updateFoodRequestBody = {
   img?: File;
   imgPath?: string;
   price: number;
+  flavor: Flavor[];
+  cuisine: Cuisine;
 }
 type updateFoodResponse = {
   id: string;
   name: string;
   imgPath: string;
   price: number;
+  flavor: Flavor[];
+  cuisine: Cuisine;
 }
 router.put<string, updateFoodRequestParam, commonResponse<updateFoodResponse>, updateFoodRequestBody>("/update/:storeId/:foodId", upload.single('img'), async function(req, res) {
   const storeId = req.params.storeId
@@ -115,6 +126,8 @@ router.put<string, updateFoodRequestParam, commonResponse<updateFoodResponse>, u
         food.set("name", body.name)
         food.set("imgPath", imgPath as string)
         food.set("price", body.price)
+        food.set("cuisine", body.cuisine)
+        food.set("flavor", body.flavor)
         const saveRes = await food.save();
         const dataValue = saveRes.dataValues;
         res.status(200).send(generateResponse(
@@ -124,6 +137,8 @@ router.put<string, updateFoodRequestParam, commonResponse<updateFoodResponse>, u
             name: dataValue.name,
             price: dataValue.price,
             imgPath: dataValue.imgPath,
+            flavor: dataValue.flavor,
+            cuisine: dataValue.cuisine,
           }
         ))
       } else {
@@ -139,6 +154,8 @@ type getFoodListResponseBody = {
   name: string;
   imgPath: string;
   price: number;
+  flavor: Flavor[];
+  cuisine: Cuisine;
   soldOut: boolean;
   createdAt: number;
 }[]
@@ -160,6 +177,8 @@ router.get<string, getFoodListRequestParam, commonResponse<getFoodListResponseBo
         name: data.name,
         imgPath: data.imgPath,
         price: data.price,
+        flavor: data.flavor,
+        cuisine: data.cuisine,
         soldOut: data.soldOut,
         createdAt: data.createdAt?.valueOf() || 0,
       }

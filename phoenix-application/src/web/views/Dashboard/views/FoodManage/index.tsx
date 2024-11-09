@@ -7,6 +7,7 @@ import { useAppSelector } from "./../../../../stores";
 import API_CODES from "./../../../../utils/API_CODES";
 import DeleteFood from "./components/menus/DeleteFood";
 import SoldOutFood from "./components/menus/SoldOutFood";
+import { Flavor, Cuisine } from "./../../../../utils/constants";
 
 export type Food = {
   id: string;
@@ -14,6 +15,8 @@ export type Food = {
   imgPath: string;
   price: number;
   soldOut: boolean;
+  flavor: Flavor[];
+  cuisine: Cuisine;
   createdAt: Date;
 }
 

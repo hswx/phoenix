@@ -3,6 +3,8 @@ import Register from "../views/Register";
 import Login from "../views/Login";
 import Dashborad from "../views/Dashboard";
 import FoodManage from "../views/Dashboard/views/FoodManage";
+import CategoryManage from "../views/Dashboard/views/CategoryManage";
+import EmployeeManage from "../views/Dashboard/views/EmployeeManage";
 
 const router = createHashRouter([
   {
@@ -20,6 +22,14 @@ const router = createHashRouter([
       {
         path: "food-manage",
         element: <FoodManage />
+      },
+      {
+        path: "category-manage",
+        element: <CategoryManage />
+      },
+      {
+        path: "employee-manage",
+        element: <EmployeeManage />
       }
     ]
   }

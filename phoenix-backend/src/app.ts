@@ -2,11 +2,11 @@ import express from "express";
 import { initDB } from "./dao/db";
 import authRouter from "./routes/auth";
 import storeRouter from "./routes/store";
-import API_CODES from "./utils/API_CODES";
 import jwt from "jsonwebtoken";
 import { JWT_SCRECT } from "./utils/config";
 import Account from "./model/Account";
 import foodRouter from "./routes/food";
+import categoryRouter from "./routes/category";
 
 (async () => {
   await initDB();
@@ -58,5 +58,6 @@ app.use(async (req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/store", storeRouter);
 app.use("/food", foodRouter);
+app.use("/category", categoryRouter);
 
 module.exports = app;
