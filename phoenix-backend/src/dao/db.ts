@@ -64,8 +64,7 @@ export async function initDB() {
   Store.hasMany(Employee);
   Employee.belongsTo(Store);
 
-  await sequelize.sync({});
-
+  // await sequelize.sync({force: true});
 }
 
 export default sequelize

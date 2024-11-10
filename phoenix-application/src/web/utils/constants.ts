@@ -1,5 +1,7 @@
 import API_CODES from "./API_CODES";
 
+export const BACKEND_HOST = "http://127.0.0.1:3001/"
+
 export enum TEXT_FIELD_ERROR_TYPE {
   UNKNOWN = -1,
   NORMAL = 0,

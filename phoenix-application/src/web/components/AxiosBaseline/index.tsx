@@ -1,13 +1,13 @@
 import React from "react"
 import axios, { AxiosError } from "axios";
 import { useSnackbar } from "notistack";
-import { LOGIN_TOKEN_NAME } from "./../../utils/constants";
+import { BACKEND_HOST, LOGIN_TOKEN_NAME } from "./../../utils/constants";
 
 const AxiosBaseline = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
-    axios.defaults.baseURL = "http://127.0.0.1:3001/"
+    axios.defaults.baseURL = BACKEND_HOST
     // axios.defaults.headers.common.Authorization = `Bearer ${token}`
     axios.interceptors.request.use(e => {
       const regexp = /^\/auth\/\S+/;

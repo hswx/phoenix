@@ -3,6 +3,9 @@ import API_CODES from '../utils/API_CODES';
 import { commonResponse, generateResponse } from '../utils';
 import { Op } from 'sequelize';
 import Employee, { EmployeeSex } from '../model/Employee';
+import { GOOGLE_CLIENT, GOOGLE_ENTERPRISE_ID } from './../utils/config';
+import { google } from 'googleapis';
+import { randomUUID } from 'crypto';
 
 const router = express.Router();
 
@@ -16,6 +19,7 @@ type getEmployeeListResponseBody = {
   sex: EmployeeSex;
   telephoneNumber: string;
   employTime: number;
+  qrCode: string;
   deleted: boolean;
   createdAt: number;
 }[]
@@ -39,6 +43,7 @@ router.get<string, undefined, commonResponse<getEmployeeListResponseBody>, undef
         sex: data.sex,
         telephoneNumber: data.telephoneNumber,
         employTime: data.employTime?.valueOf() || 0,
+        qrCode: data.qrCode,
         deleted: data.deleted,
         createdAt: data.createdAt?.valueOf() || 0,
       }
@@ -59,12 +64,30 @@ type createEmployeeRequestBody = {
 router.post<string, undefined, commonResponse, createEmployeeRequestBody, createEmployeeRequestQuery>("/create", async function(req, res) {
   const storeId = req.query.storeId
   const body = req.body
+
+  await GOOGLE_CLIENT.authorize()
+  const androidmanagement = google.androidmanagement({
+      version: 'v1',
+      auth: GOOGLE_CLIENT,
+  });
+
+  const etCreateRes = await androidmanagement.enterprises.enrollmentTokens.create({
+    parent: GOOGLE_ENTERPRISE_ID,
+    requestBody: {
+      policyName: randomUUID(),
+      duration: "9999-12-31T23:59:59.999999999Z"
+    }
+  })
+
+  const qrCode = etCreateRes.data.qrCode || ""
+  
   const employee = new Employee({
     storeId,
     name: body.name,
     age: body.age,
     sex: body.sex,
     telephoneNumber: body.telephoneNumber,
+    qrCode,
     employTime: body.employTime,
   })
 

@@ -9,6 +9,7 @@ const columns: GridColDef<Employee>[] = [
   { field: "sex", headerName: "性别", width: 80, valueGetter: value => value === EmployeeSex.FEMALE ? "女": "男" },
   { field: "age", headerName: "年龄", type: "number", width: 80 },
   { field: "telephoneNumber", headerName: "手机号", width: 160 },
+  { field: "qrCode", headerName: "设备二维码", width: 100 },
   {
     field: "employTime",
     headerName: "入职时间",

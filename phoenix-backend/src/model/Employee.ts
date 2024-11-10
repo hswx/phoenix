@@ -13,12 +13,13 @@ interface EmployeeAttributes {
   sex: EmployeeSex;
   telephoneNumber: string;
   employTime: Date;
+  qrCode: string;
   deleted: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-type EmployeeCreationAttributes = Optional<EmployeeAttributes, "id" | "age" | "employTime" | "deleted" | "createdAt" | "updatedAt">
+type EmployeeCreationAttributes = Optional<EmployeeAttributes, "id" | "age" | "employTime" | "qrCode" | "deleted" | "createdAt" | "updatedAt">
 
 class Employee extends Model<EmployeeAttributes, EmployeeCreationAttributes> {
   id!: string;
@@ -28,6 +29,7 @@ class Employee extends Model<EmployeeAttributes, EmployeeCreationAttributes> {
   sex!: EmployeeSex;
   telephoneNumber!: string;
   employTime!: Date;
+  qrCode!: string;
   deleted!: boolean;
   createdAt!: Date;
   updatedAt!: Date;

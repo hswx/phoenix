@@ -31,22 +31,27 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
+  console.log(1001, req.url)
   const regexp = /^\/auth\/\S+/;
   if (regexp.test(req.url)) {
     next()
     return
   } else {
     const authorizationToken = req.headers.authorization?.split(' ')[1];
+    console.log(1002, authorizationToken)
     if (authorizationToken) {
       try {
         const jwtToken = jwt.verify(authorizationToken, JWT_SCRECT) as jwt.JwtPayload
+        console.log(1003, jwtToken)
         const account = await Account.findOne({
           where: {
             token: jwtToken.token
           }
         })
+        console.log(1004, account)
         if (account) {
           req.body.accountId = account.dataValues.id;
+          console.log(1005)
           next()
           return
         }

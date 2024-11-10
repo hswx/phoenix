@@ -4,6 +4,7 @@ import { Food } from "..";
 import { Chip } from "@mui/material";
 import dayjs from "dayjs";
 import { Cuisine, Flavor } from "./../../../../../utils/constants";
+import Image from "./../../../../../components/Image";
 
 const columns: GridColDef<Food>[] = [
   { field: "name", headerName: "菜品名称", width: 240 },
@@ -12,7 +13,8 @@ const columns: GridColDef<Food>[] = [
     headerName: "菜品图片",
     width: 100,
     renderCell: (item) => (
-      <img src={`${item.value}`} loading="lazy" width="50px" height="50px" />
+      <Image src={`${item.value}`} width="50px" height="50px"/>
+      // <img src={`${item.value}`} loading="lazy" width="50px" height="50px" />
     ),
   },
   {

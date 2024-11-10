@@ -34,6 +34,10 @@ const initEmployee = function (sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      qrCode: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       employTime: {
         type: DataTypes.DATE,
         allowNull: true,
