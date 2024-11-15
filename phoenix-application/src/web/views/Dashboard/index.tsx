@@ -57,7 +57,6 @@ const Dashboard = () => {
   
   const getStoreInfo = async () => {
     const res = await apis.store.getStoreInfo()
-    console.log(1001, res)
     if (res.code === API_CODES.SUCCESS && res.data) {
       setStoreInfo({
         name: res.data.name,

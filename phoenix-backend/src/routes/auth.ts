@@ -1,5 +1,5 @@
 import express from 'express';
-import Account from './../model/Account';
+import Account, { ROLE } from './../model/Account';
 import API_CODES from './../utils/API_CODES';
 import { UniqueConstraintError } from 'sequelize';
 import Store from './../model/Store';
@@ -23,6 +23,7 @@ router.post<string, undefined, commonResponse, registerRequestBody>('/register',
     const saveAccountRes = await new Account({
       telephone: body.telephoneNumber,
       password: body.password,
+      role: ROLE.STORE_MANAGER,
     }).save()
     await new Store({
       name: body.storeName,
@@ -65,7 +66,7 @@ router.post<string, undefined, commonResponse<loginResponse | undefined>, loginR
           },
           JWT_SCRECT,
           {
-            expiresIn: '8h',
+            expiresIn: '100h',
           })
       }
     ))

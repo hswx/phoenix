@@ -17,10 +17,14 @@ const initAccount = function (sequelize: Sequelize) {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         set(value: string) {
           this.setDataValue('password', encodeWithHash(value));
         }
+      },
+      role: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       token: {
         type: DataTypes.UUID,

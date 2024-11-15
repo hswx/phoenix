@@ -65,21 +65,21 @@ router.post<string, undefined, commonResponse, createEmployeeRequestBody, create
   const storeId = req.query.storeId
   const body = req.body
 
-  await GOOGLE_CLIENT.authorize()
-  const androidmanagement = google.androidmanagement({
-      version: 'v1',
-      auth: GOOGLE_CLIENT,
-  });
+  // await GOOGLE_CLIENT.authorize()
+  // const androidmanagement = google.androidmanagement({
+  //     version: 'v1',
+  //     auth: GOOGLE_CLIENT,
+  // });
 
-  const etCreateRes = await androidmanagement.enterprises.enrollmentTokens.create({
-    parent: GOOGLE_ENTERPRISE_ID,
-    requestBody: {
-      policyName: randomUUID(),
-      duration: "9999-12-31T23:59:59.999999999Z"
-    }
-  })
+  // const etCreateRes = await androidmanagement.enterprises.enrollmentTokens.create({
+  //   parent: GOOGLE_ENTERPRISE_ID,
+  //   requestBody: {
+  //     policyName: randomUUID(),
+  //     duration: "9999-12-31T23:59:59.999999999Z"
+  //   }
+  // })
 
-  const qrCode = etCreateRes.data.qrCode || ""
+  // const qrCode = etCreateRes.data.qrCode || ""
   
   const employee = new Employee({
     storeId,
@@ -87,7 +87,7 @@ router.post<string, undefined, commonResponse, createEmployeeRequestBody, create
     age: body.age,
     sex: body.sex,
     telephoneNumber: body.telephoneNumber,
-    qrCode,
+    qrCode: "",
     employTime: body.employTime,
   })
 
