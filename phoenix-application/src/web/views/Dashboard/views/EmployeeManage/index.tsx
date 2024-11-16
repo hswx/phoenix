@@ -7,7 +7,6 @@ import { EmployeeSex } from "./../../../../utils/constants";
 import EmployeeTable from "./components/EmployeeTable";
 import EditEmployee from "./components/menus/EditEmployee";
 import DeleteEmployee from "./components/menus/DeleteEmployee";
-import MDMAlert from "./components/MDMAlert";
 
 export type Employee = {
   id: string;
@@ -45,7 +44,6 @@ const EmployeeManage = () => {
     flexDirection: "column",
     height: "100%"
   }}>
-    <MDMAlert />
     <Stack direction="row" spacing={2}>
       {selectedEmployeeIds.length === 0 && <EditEmployee onSuccess={getEmployeeList}/>}
       {selectedEmployeeIds.length === 1 && <EditEmployee id={selectedEmployeeIds[0]} onSuccess={getEmployeeList}/>}

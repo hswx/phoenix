@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Popover from '@mui/material/Popover';
 import { Box } from '@mui/material';
+import QRCode from 'qrcode';
 
 type ImageProps = {
   [key: string]: any;
@@ -18,12 +19,23 @@ const Image = (props: ImageProps) => {
 
   const open = Boolean(anchorEl);
 
+  const [imgUrl, setImgUrl] = React.useState("");
+
+  React.useEffect(() => {
+    if (props.qrcode) {
+      QRCode.toDataURL(props.src).then(setImgUrl)
+    } else {
+      setImgUrl(props.src)
+    }
+  }, [props.src, props.qrcode])
+  
   return (
     <Box>
       <img
         {...props}
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
+        src={imgUrl}
       />
       <Popover
         sx={{ pointerEvents: 'none' }}
@@ -40,7 +52,7 @@ const Image = (props: ImageProps) => {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <img {...props} width="200px" height="200px"/>
+        <img {...props} width="200px" height="200px" src={imgUrl}/>
       </Popover>
     </Box>
   );

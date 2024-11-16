@@ -20,3 +20,4 @@ export const GOOGLE_CLIENT = new google.auth.JWT({
   keyFile: GOOGLE_SERVICE_ACCOUNT_FILE,
   scopes: [GOOGLE_SCOPE],
 })
+export const GOOGLE_ENROLLMENT_URL = "https://enterprise.google.com/android/enroll?et="

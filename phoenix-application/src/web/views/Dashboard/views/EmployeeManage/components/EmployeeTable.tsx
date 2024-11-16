@@ -3,13 +3,16 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { Employee } from "..";
 import { EmployeeSex } from "./../../../../../utils/constants";
+import Image from "./../../../../../components/Image";
 
 const columns: GridColDef<Employee>[] = [
   { field: "name", headerName: "姓名", width: 160 },
   { field: "sex", headerName: "性别", width: 80, valueGetter: value => value === EmployeeSex.FEMALE ? "女": "男" },
   { field: "age", headerName: "年龄", type: "number", width: 80 },
   { field: "telephoneNumber", headerName: "手机号", width: 160 },
-  { field: "qrCode", headerName: "设备二维码", width: 100 },
+  { field: "qrCode", headerName: "设备二维码", width: 100, renderCell: (item) => {
+    return <Image src={item.value} width="50px" height="50px" qrcode={true}/>
+  }},
   {
     field: "employTime",
     headerName: "入职时间",

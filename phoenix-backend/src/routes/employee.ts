@@ -3,7 +3,7 @@ import API_CODES from '../utils/API_CODES';
 import { commonResponse, generateResponse } from '../utils';
 import { Op } from 'sequelize';
 import Employee, { EmployeeSex } from '../model/Employee';
-import { GOOGLE_CLIENT, GOOGLE_ENTERPRISE_ID } from './../utils/config';
+import { GOOGLE_CLIENT, GOOGLE_ENROLLMENT_URL, GOOGLE_ENTERPRISE_ID } from './../utils/config';
 import { google } from 'googleapis';
 import { randomUUID } from 'crypto';
 
@@ -65,21 +65,41 @@ router.post<string, undefined, commonResponse, createEmployeeRequestBody, create
   const storeId = req.query.storeId
   const body = req.body
 
-  // await GOOGLE_CLIENT.authorize()
-  // const androidmanagement = google.androidmanagement({
-  //     version: 'v1',
-  //     auth: GOOGLE_CLIENT,
-  // });
+  await GOOGLE_CLIENT.authorize()
+  const androidmanagement = google.androidmanagement({
+      version: 'v1',
+      auth: GOOGLE_CLIENT,
+  });
 
-  // const etCreateRes = await androidmanagement.enterprises.enrollmentTokens.create({
-  //   parent: GOOGLE_ENTERPRISE_ID,
-  //   requestBody: {
-  //     policyName: randomUUID(),
-  //     duration: "9999-12-31T23:59:59.999999999Z"
-  //   }
-  // })
+  console.log(1001)
 
-  // const qrCode = etCreateRes.data.qrCode || ""
+  const etCreateRes = await androidmanagement.enterprises.enrollmentTokens.create({
+    parent: GOOGLE_ENTERPRISE_ID,
+    requestBody: {
+      allowPersonalUsage: "ALLOW_PERSONAL_USAGE_UNSPECIFIED",
+      policyName: randomUUID(),
+      duration: 60 * 60 * 24 * 365 + "s"
+    }
+  })
+  
+  console.log(1002)
+  await androidmanagement.enterprises.policies.patch({
+    name: `${GOOGLE_ENTERPRISE_ID}/policies/${etCreateRes.data.policyName}`,
+    requestBody: {
+      applications: [
+        {
+          packageName: "com.android.chrome",
+          installType: "FORCE_INSTALLED",
+          managedConfiguration: {
+            HomepageLocation: "https://www.baidu.com"
+          }
+        }
+      ]
+    }
+  })
+  console.log(1003)
+
+  const enrollmentUrl = GOOGLE_ENROLLMENT_URL + etCreateRes.data.value
   
   const employee = new Employee({
     storeId,
@@ -87,7 +107,7 @@ router.post<string, undefined, commonResponse, createEmployeeRequestBody, create
     age: body.age,
     sex: body.sex,
     telephoneNumber: body.telephoneNumber,
-    qrCode: "",
+    qrCode: enrollmentUrl,
     employTime: body.employTime,
   })
 
