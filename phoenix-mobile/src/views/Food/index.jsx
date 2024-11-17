@@ -19,7 +19,7 @@ const Food = () => {
     }
   }, [])
 
-  return <Box sx={{display: "flex", flexDirection: "column", height: "100vh", paddingBottom: "56px"}}>
+  return <Box sx={{display: "flex", flexDirection: "column", height: "100%"}}>
     <StoreBar />
     <FoodList />
     <ShoppingCart />

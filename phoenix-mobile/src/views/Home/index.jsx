@@ -14,21 +14,19 @@ const Home = () => {
     dispatch(RootActions.setCurrentBottomTab(BOTTOM_TAB.HOME))
   }, [])
 
-  const storeId = useSelector(state => state.Root.storeId)
-
   const [foodList, setFoodList] = React.useState([]);
 
-  const getFoodList = async (storeId) => {
-    const res = await apis.food.getFoodList({storeId})
+  const getFoodList = async () => {
+    const res = await apis.food.getFoodList()
     const list = res.code === API_CODES.SUCCESS && res.data || []
     setFoodList(list);
   };
 
   React.useEffect(() => {
-    storeId && getFoodList(storeId)
-  }, [storeId])
+    getFoodList()
+  }, [])
 
-  return <ImageList variant="masonry" cols={2} gap={8} sx={{paddingX: 1, paddingBottom: 8}}>
+  return <ImageList variant="masonry" cols={2} gap={8} sx={{paddingX: 1, paddingBottom: 1}}>
   {foodList.map((item) => 
    {
     return <Paper key={item.id}>

@@ -7,6 +7,7 @@ import { SnackbarProvider } from 'notistack';
 import AxiosBaseline from './components/AxiosBaseline';
 import { Provider } from 'react-redux';
 import store from './stores';
+import LoadingPage from './components/Loading';
 
 const theme = createTheme({
   components: {
@@ -33,7 +34,11 @@ function App() {
       autoHideDuration={3000}
     >
       <AxiosBaseline />
-      <RouterProvider router={router} />
+      <Box height={"100dvh"}>
+        <React.Suspense fallback={<LoadingPage />}>
+          <RouterProvider router={router} />
+        </React.Suspense>
+      </Box>
     </SnackbarProvider>
   </ThemeProvider>
 </Provider>

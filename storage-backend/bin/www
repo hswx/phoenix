@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../src/app');
-var debug = require('debug')('accounts-backend:server');
+var app = require('../app');
+var debug = require('debug')('storage-backend:server');
 var http = require('http');
 
 /**

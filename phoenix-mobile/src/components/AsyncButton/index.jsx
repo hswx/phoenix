@@ -7,7 +7,7 @@ const AsyncButton = (props) => {
 
   const clickFn = (e) => {
     setLoading(true)
-    props.onClick?.(e).finally(() => setLoading(false))
+    Promise.resolve( props.onClick?.(e)).finally(() => setLoading(false))
   }
 
   return <LoadingButton

@@ -45,14 +45,12 @@ const ShoppingCart = () => {
     dispatch(FoodActions.removeFood(food))
   }
 
-  const employeeId = useSelector(state => state.Root.employeeId)
 
   const { enqueueSnackbar } = useSnackbar()
   const navigate = useNavigate()
 
   const onCreateOrder = async () => {
     const data = {
-      employeeId,
       foodList: foodList.map(item => ({
         count: item.count,
         ...item.food,

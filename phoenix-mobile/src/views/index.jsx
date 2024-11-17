@@ -32,7 +32,9 @@ const Main = () => {
   }
 
   return <Box sx={{height: '100%'}}>
-    <Outlet />
+    <Box sx={{height: "100dvh", paddingBottom: "56px", overflow: "auto"}}>
+      <Outlet />
+    </Box>
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
       <BottomNavigation
         showLabels

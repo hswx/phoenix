@@ -1,13 +1,16 @@
+import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import Main from "../views/index.jsx";
-import Home from "../views/Home/index.jsx";
-import Food from "../views/Food/index.jsx";
-import OrderDetail from "../views/Order/Detail/index.jsx";
-import OrderList from "../views/Order/List/index.jsx";
+
+const Main = React.lazy(() => import("../views/index.jsx"));
+const Home = React.lazy(() => import("../views/Home/index.jsx"));
+const Food = React.lazy(() => import("../views/Food/index.jsx"));
+const OrderDetail = React.lazy(() => import("../views/Order/Detail/index.jsx"));
+const OrderList = React.lazy(() => import("../views/Order/List/index.jsx"));
+const Auth = React.lazy(() => import("../views/Auth/index.jsx"));
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    index: "/",
     element: <Main />,
     children: [
       {
@@ -28,6 +31,10 @@ const router = createBrowserRouter([
       },
     ]
   },
+  {
+    path: "/auth",
+    element: <Auth />
+  }
 ]);
 
 export default router;

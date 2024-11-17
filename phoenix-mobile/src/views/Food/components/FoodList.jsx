@@ -17,10 +17,8 @@ const FoodList = () => {
   const [foodFllist, setFoodllist] = React.useState([]);
   const [activeCategoryId, setActiveCategoryId] = React.useState(undefined);
 
-  const storeId = useSelector(state => state.Root.storeId)
-
-  const initFoodList = async (storeId) => {
-    const res = await apis.food.getFoodFullist({storeId})
+  const initFoodList = async () => {
+    const res = await apis.food.getFoodFullist()
     const foodFllist = res.code === API_CODES.SUCCESS && res.data;
     if (foodFllist.length > 0) {
       setFoodllist(foodFllist)
@@ -29,8 +27,8 @@ const FoodList = () => {
   }
 
   React.useEffect(() => {
-    initFoodList(storeId)
-  }, [storeId])
+    initFoodList()
+  }, [])
 
   const onCategoryChange = (id) => () => {
     setActiveCategoryId(id)

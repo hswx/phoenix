@@ -1,6 +1,7 @@
-export const BACKEND_HOST = "http://127.0.0.1:3001"
+export const BACKEND_HOST = "http://192.168.31.175:3001"
 
 export const LOGIN_TOKEN_NAME = "phoenix-token"
+export const BUSINESS_ID_TOKEN_NAME = "bussiness-id"
 
 export const BOTTOM_TAB = {
   HOME: 0,
