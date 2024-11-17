@@ -1,0 +1,214 @@
+{
+	"groups": [
+		{
+			"keys": "bg_dayTime_png,bg_night_png,common_json,cover_light_png,daytime_json,simple_day_png,lion_png,cover_night_png,night_json,simple_night_png,lion_sit_tex_png,lion_sit_ske_json,lion_sit_tex_json,danguang1217_ske_json,danguang1217_tex_json,danguang1217_tex_png,danke1217_ske_json,danke1217_tex_json,danke1217_tex_png,dosign_json,danguang1217_ske2_json,danguang1217_tex2_json,danguang1217_tex2_png,danke1217_ske2_json,danke1217_tex2_json,danke1217_tex2_png,empty_png,empty2_png,bg_dayTime_immersive_png,bg_night_immersive_png,simple_day_immersive_png,simple_night_immersive_png,bullet_json,mem_engine_json",
+			"name": "preload"
+		},
+		{
+			"keys": "common_json,empty_png",
+			"name": "common"
+		},
+		{
+			"keys": "cover_light_png,daytime_json,simple_day_png",
+			"name": "daytime"
+		},
+		{
+			"keys": "cover_night_png,night_json,simple_night_png",
+			"name": "night"
+		},
+		{
+			"keys": "lion_png",
+			"name": "lion_degrade"
+		},
+		{
+			"keys": "lion_sit_tex_png,lion_sit_ske_json,lion_sit_tex_json",
+			"name": "lion_common"
+		},
+		{
+			"keys": "danguang1217_ske_json,danguang1217_tex_json,danguang1217_tex_png,danke1217_ske_json,danke1217_tex_json,danke1217_tex_png",
+			"name": "egg"
+		},
+		{
+			"keys": "dosign_json",
+			"name": "dosign"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/bg_dayTime.png",
+			"type": "image",
+			"name": "bg_dayTime_png"
+		},
+		{
+			"url": "assets/bg_night.png",
+			"type": "image",
+			"name": "bg_night_png"
+		},
+		{
+			"url": "assets/daytime/cover_light.png",
+			"type": "image",
+			"name": "cover_light_png"
+		},
+		{
+			"url": "assets/simple_day.png",
+			"type": "image",
+			"name": "simple_day_png"
+		},
+		{
+			"url": "assets/lion_degrade/lion.png",
+			"type": "image",
+			"name": "lion_png"
+		},
+		{
+			"url": "assets/night/cover_night.png",
+			"type": "image",
+			"name": "cover_night_png"
+		},
+		{
+			"url": "assets/simple_night.png",
+			"type": "image",
+			"name": "simple_night_png"
+		},
+		{
+			"url": "assets/common/common.json",
+			"type": "sheet",
+			"name": "common_json",
+			"subkeys": "basket,beef,calendar_tip,chips,cookies,durian,dynamicHead,fondle_tip,hand-icon-01,hand-icon-02,hand-icon-03,icon-arrow,icon-back,icon-bubble1,icon-bubbleInfo,icon-canCatch,icon-canCatchInvite,icon-catch,icon-change-food,icon-cloud,icon-days,icon-decorate,icon-decorate-hot,icon-diamond,icon-find,icon-groove,icon-level,icon-lion,icon-lioness,icon-look-forward,icon-more,icon-myHome,icon-nextHome,icon-prop,icon-prop-hot,icon-prop-normal,icon-prop-tag,icon-red-dot,icon-tactic,icon-tag-friend,icon-tag-self,icon_drips,icon_fragments,light_01,light_02,light_03,light_04,light_05,lock,nut,push,shade_47px,sign-drip-ani-fragment,sign-drip-diamond,sign-drip-fragement,sign-drip-gift,sign-drip-guide,sign-drip-label,speech-bubble,speech-close,title-logo,tomorrow-icon,treasure-box,treasure-box-full,treasure_light"
+		},
+		{
+			"url": "assets/daytime/daytime.json",
+			"type": "sheet",
+			"name": "daytime_json",
+			"subkeys": "basket_shadow_day,box_shadow_day,count-day,grass,icon-Subscribe,icon-Subscribe1,icon-rule,icon-unSubscribe,icon-under,icon-user-bg,tomorrow-day-drip"
+		},
+		{
+			"url": "assets/night/night.json",
+			"type": "sheet",
+			"name": "night_json",
+			"subkeys": "basket_shadow_night,box_shadow_night,count-night,grass-night,icon-Subscribe-night,icon-Subscribe1-night,icon-rule-night,icon-unSubscribe-night,icon-under-night,icon-user-night,tomorrow-nignt-icon"
+		},
+		{
+			"url": "assets/lion_common/lion_sit_tex.png",
+			"type": "image",
+			"name": "lion_sit_tex_png"
+		},
+		{
+			"url": "assets/lion_common/lion_sit_ske.json",
+			"type": "json",
+			"name": "lion_sit_ske_json"
+		},
+		{
+			"url": "assets/lion_common/lion_sit_tex.json",
+			"type": "json",
+			"name": "lion_sit_tex_json"
+		},
+		{
+			"url": "assets/egg/danguang1217_ske.json",
+			"type": "json",
+			"name": "danguang1217_ske_json"
+		},
+		{
+			"url": "assets/egg/danguang1217_tex.json",
+			"type": "json",
+			"name": "danguang1217_tex_json"
+		},
+		{
+			"url": "assets/egg/danguang1217_tex.png",
+			"type": "image",
+			"name": "danguang1217_tex_png"
+		},
+		{
+			"url": "assets/egg/danke1217_ske.json",
+			"type": "json",
+			"name": "danke1217_ske_json"
+		},
+		{
+			"url": "assets/egg/danke1217_tex.json",
+			"type": "json",
+			"name": "danke1217_tex_json"
+		},
+		{
+			"url": "assets/egg/danke1217_tex.png",
+			"type": "image",
+			"name": "danke1217_tex_png"
+		},
+		{
+			"url": "assets/dosign/dosign.json",
+			"type": "sheet",
+			"name": "dosign_json",
+			"subkeys": "egg_back,egg_front,first_day,receive_icon,receive_text,second-day,sign_success,star,third_day"
+		},
+		{
+			"url": "assets/egg/danguang1217_ske.json",
+			"type": "json",
+			"name": "danguang1217_ske2_json"
+		},
+		{
+			"url": "assets/egg/danguang1217_tex.json",
+			"type": "json",
+			"name": "danguang1217_tex2_json"
+		},
+		{
+			"url": "assets/egg/danguang1217_tex.png",
+			"type": "image",
+			"name": "danguang1217_tex2_png"
+		},
+		{
+			"url": "assets/egg/danke1217_ske.json",
+			"type": "json",
+			"name": "danke1217_ske2_json"
+		},
+		{
+			"url": "assets/egg/danke1217_tex.json",
+			"type": "json",
+			"name": "danke1217_tex2_json"
+		},
+		{
+			"url": "assets/egg/danke1217_tex.png",
+			"type": "image",
+			"name": "danke1217_tex2_png"
+		},
+		{
+			"url": "assets/empty.png",
+			"type": "image",
+			"name": "empty_png"
+		},
+		{
+			"url": "assets/empty.png",
+			"type": "image",
+			"name": "empty2_png"
+		},
+		{
+			"url": "assets/bg_dayTime_immersive.png",
+			"type": "image",
+			"name": "bg_dayTime_immersive_png"
+		},
+		{
+			"url": "assets/bg_night_immersive.png",
+			"type": "image",
+			"name": "bg_night_immersive_png"
+		},
+		{
+			"url": "assets/simple_day_immersive.png",
+			"type": "image",
+			"name": "simple_day_immersive_png"
+		},
+		{
+			"url": "assets/simple_night_immersive.png",
+			"type": "image",
+			"name": "simple_night_immersive_png"
+		},
+		{
+			"name": "bullet_json",
+			"type": "sheet",
+			"url": "assets/bullet/bullet.json",
+			"subkeys": "bullet_icon,bullet,day_bullet_bg,day_bullet_off,night_bullet_bg,night_bullet_off"
+		},
+		{
+			"name": "mem_engine_json",
+			"type": "sheet",
+			"url": "assets/member/mem_engine.json",
+			"subkeys": "icon-tag-self-mem,mem_activity_btn,mem_activity_drip,mem_tel_btn,mem_tel_drip,mem_voucher_btn,mem_voucher_drip"
+		}
+	]
+}

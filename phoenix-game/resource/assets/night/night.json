@@ -1,0 +1,12 @@
+{"file":"night.png","frames":{
+"basket_shadow_night":{"x":82,"y":203,"w":99,"h":9,"offX":6,"offY":3,"sourceW":112,"sourceH":15},
+"box_shadow_night":{"x":82,"y":216,"w":88,"h":6,"offX":2,"offY":5,"sourceW":92,"sourceH":14},
+"count-night":{"x":1,"y":123,"w":130,"h":32,"offX":0,"offY":0,"sourceW":130,"sourceH":32},
+"grass-night":{"x":1,"y":197,"w":77,"h":20,"offX":0,"offY":0,"sourceW":77,"sourceH":20},
+"icon-rule-night":{"x":93,"y":165,"w":76,"h":34,"offX":0,"offY":0,"sourceW":76,"sourceH":34},
+"icon-Subscribe-night":{"x":173,"y":165,"w":76,"h":34,"offX":0,"offY":0,"sourceW":76,"sourceH":34},
+"icon-Subscribe1-night":{"x":109,"y":85,"w":132,"h":34,"offX":0,"offY":0,"sourceW":132,"sourceH":34},
+"icon-under-night":{"x":135,"y":123,"w":86,"h":38,"offX":0,"offY":0,"sourceW":86,"sourceH":38},
+"icon-unSubscribe-night":{"x":1,"y":159,"w":88,"h":34,"offX":0,"offY":0,"sourceW":88,"sourceH":34},
+"icon-user-night":{"x":109,"y":1,"w":80,"h":80,"offX":0,"offY":0,"sourceW":80,"sourceH":80},
+"tomorrow-nignt-icon":{"x":1,"y":1,"w":104,"h":109,"offX":0,"offY":0,"sourceW":104,"sourceH":109}}}

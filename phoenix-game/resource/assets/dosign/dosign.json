@@ -1,0 +1,10 @@
+{"file":"dosign.png","frames":{
+"egg_back":{"x":402,"y":709,"w":388,"h":102,"offX":137,"offY":194,"sourceW":584,"sourceH":312},
+"egg_front":{"x":1,"y":1,"w":540,"h":233,"offX":1,"offY":37,"sourceW":609,"sourceH":312},
+"first_day":{"x":1,"y":238,"w":350,"h":350,"offX":0,"offY":0,"sourceW":350,"sourceH":350},
+"receive_icon":{"x":1,"y":592,"w":206,"h":69,"offX":0,"offY":0,"sourceW":206,"sourceH":70},
+"receive_text":{"x":402,"y":815,"w":453,"h":46,"offX":2,"offY":2,"sourceW":457,"sourceH":50},
+"second-day":{"x":545,"y":1,"w":350,"h":350,"offX":0,"offY":0,"sourceW":350,"sourceH":350},
+"sign_success":{"x":1,"y":709,"w":397,"h":303,"offX":7,"offY":1,"sourceW":414,"sourceH":308},
+"star":{"x":211,"y":592,"w":33,"h":33,"offX":1,"offY":2,"sourceW":36,"sourceH":36},
+"third_day":{"x":355,"y":355,"w":350,"h":350,"offX":0,"offY":0,"sourceW":350,"sourceH":350}}}

@@ -1,0 +1,12 @@
+{"file":"daytime.png","frames":{
+"basket_shadow_day":{"x":1,"y":199,"w":99,"h":9,"offX":4,"offY":3,"sourceW":108,"sourceH":15},
+"box_shadow_day":{"x":161,"y":185,"w":88,"h":6,"offX":3,"offY":3,"sourceW":94,"sourceH":12},
+"count-day":{"x":1,"y":123,"w":130,"h":32,"offX":0,"offY":0,"sourceW":130,"sourceH":32},
+"grass":{"x":161,"y":161,"w":77,"h":20,"offX":0,"offY":0,"sourceW":77,"sourceH":20},
+"icon-rule":{"x":1,"y":159,"w":76,"h":34,"offX":0,"offY":0,"sourceW":76,"sourceH":34},
+"icon-Subscribe":{"x":81,"y":161,"w":76,"h":34,"offX":0,"offY":0,"sourceW":76,"sourceH":34},
+"icon-Subscribe1":{"x":110,"y":85,"w":132,"h":34,"offX":0,"offY":0,"sourceW":132,"sourceH":34},
+"icon-under":{"x":194,"y":1,"w":42,"h":38,"offX":0,"offY":0,"sourceW":42,"sourceH":38},
+"icon-unSubscribe":{"x":135,"y":123,"w":88,"h":34,"offX":0,"offY":0,"sourceW":88,"sourceH":34},
+"icon-user-bg":{"x":110,"y":1,"w":80,"h":80,"offX":0,"offY":0,"sourceW":80,"sourceH":80},
+"tomorrow-day-drip":{"x":1,"y":1,"w":105,"h":109,"offX":0,"offY":0,"sourceW":105,"sourceH":109}}}
