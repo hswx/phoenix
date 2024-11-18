@@ -13,14 +13,12 @@ const AxiosBaseline = () => {
       if (regexp.test(e.url || "")) {
         return e
       } 
-      
       const loginToken = localStorage.getItem(LOGIN_TOKEN_NAME)
       const bussinessId = localStorage.getItem(BUSINESS_ID_TOKEN_NAME)
       if (!loginToken || !bussinessId) {
         enqueueSnackbar("登录状态失效", {variant: "error"})
         return Promise.reject()
       }
-
       e.headers.Authorization = `Bearer ${loginToken}`
       e.headers["bussiness-id"] = bussinessId
 

@@ -12,7 +12,7 @@ class VersionController implements RES.IVersionController {
     /**
      * resource根路径
      */
-    private resourceRoot = resPath + "resource/";
+    private resourceRoot = RESHOST + "/resource/";
 
     /**
      * 版本控制的文件夹
@@ -22,12 +22,12 @@ class VersionController implements RES.IVersionController {
     /**
      * 版本控制信息的所在路径，相对于resource文件夹
      */
-    // private versionConfigPath = resPath + "resource/version.json" + '?v=' + resVersion;
+    // private versionConfigPath = RESHOST + "resource/version.json" + '?v=' + RESVERSION;
 
     /**
      * 资源配置信息的所在路径
      */
-    private resourceConfigPath = resPath + "resource/default.res.json?v=" + resVersion;
+    private resourceConfigPath = RESHOST + "/resource/default.res.json?v=" + RESVERSION;
 
     /**
      * 初始化

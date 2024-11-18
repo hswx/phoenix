@@ -1,4 +1,4 @@
-export const BACKEND_HOST = "http://localhost:3001"
+export const BACKEND_HOST = "http://127.0.0.1:3001"
 
 export const LOGIN_TOKEN_NAME = "phoenix-token"
 export const BUSINESS_ID_TOKEN_NAME = "bussiness-id"

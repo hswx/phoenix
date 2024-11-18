@@ -12,8 +12,8 @@ const DBCONFIG = {
 
 const LOCAL_SERVICE_HOST = "https://127.0.0.1:3001"
 const FILE_SERVICE_HOST = "http://127.0.0.1:3002"
-const ELECTRON_FRONTEND_HOST = "http://localhost:3000"
-const MOBILE_FRONETNE_HOST = "http://192.168.31.175:3004"
+const ELECTRON_FRONTEND_HOST = "http://127.0.0.1:3000"
+const MOBILE_FRONETNE_HOST = "http://127.0.0.1:3004"
 
 const JWT_SCRECT = Buffer.from("phoenix", "base64")
 

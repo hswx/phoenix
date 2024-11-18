@@ -54,7 +54,7 @@ class Main extends eui.UILayer {
 
     private async loadResource() {
         try {
-            await RES.loadConfig(resPath + "resource/default.res.json?v=" + resVersion, resPath + "resource/");
+            await RES.loadConfig(RESHOST + "/resource/default.res.json?v=" + RESVERSION, RESHOST + "/resource/");
             let preload = [];
             preload.push(RES.loadGroup('common', 0))
             preload.push(RES.loadGroup('lion_common', 0))

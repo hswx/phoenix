@@ -32,7 +32,7 @@ app.use((req, res, next) => {
     origin &&
     [ELECTRON_FRONTEND_HOST, MOBILE_FRONETNE_HOST].includes(origin)
   ) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Origin", [origin]);
     res.setHeader("Access-Control-Allow-Headers", "*");
     res.setHeader("Access-Control-Allow-Methods", [
       "POST",

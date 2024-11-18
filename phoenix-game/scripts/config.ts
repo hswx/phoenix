@@ -29,7 +29,7 @@ const config: ResourceManagerConfig = {
                     //     groupSelector: p => "preload"
                     // }),
                     new IncrementCompilePlugin(),
-                    new EmitHtmlReCompilePlugin('./../../phoenix-mobile/public/index.html')
+                    // new EmitHtmlReCompilePlugin('./../../phoenix-mobile/public/index.html')
                 ]
             }
         }

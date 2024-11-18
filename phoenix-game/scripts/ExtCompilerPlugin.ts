@@ -32,7 +32,9 @@ export class ExtCompilerPlugin implements plugins.Command {
                 DEBUG: false,
                 RELEASE: true,
                 RES_VERSION_CONFIG: encodeURIComponent(JSON.stringify(global.resVersionConfig)),
-                RES_CONFIG: encodeURIComponent(global.resConfig)
+                RES_CONFIG: encodeURIComponent(global.resConfig),
+                RES_HOST: "127.0.0.1:3004/",
+                RES_VERSION: Date.now(),
             }
         })
         await commandContext && cp.onFinish && cp.onFinish(commandContext)

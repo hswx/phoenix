@@ -1,11 +1,12 @@
 import React from 'react'
-import { ImageList, ImageListItem, ImageListItemBar, Paper } from '@mui/material'
+import { ImageList, ImageListItem, ImageListItemBar, Paper, Box } from '@mui/material'
 import apis from '../../apis'
 import API_CODES from '../../utils/API_CODES'
-import { useDispatch, useSelector } from 'react-redux'
-import { BOTTOM_TAB, CUISINE_STR, FLAVOR_STR } from '../../utils/constants'
+import { useDispatch } from 'react-redux'
+import { BOTTOM_TAB } from '../../utils/constants'
 import { RootActions } from '../../stores/RootSlice'
 import { getFoodDescription } from '../../utils'
+import LionGame from './components/LionGame'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -26,7 +27,11 @@ const Home = () => {
     getFoodList()
   }, [])
 
-  return <ImageList variant="masonry" cols={2} gap={8} sx={{paddingX: 1, paddingBottom: 1}}>
+  return <Box>
+    <Box>
+      <LionGame />
+    </Box>
+      <ImageList variant="masonry" cols={2} gap={8} sx={{paddingX: 1, paddingBottom: 1}}>
   {foodList.map((item) => 
    {
     return <Paper key={item.id}>
@@ -46,6 +51,7 @@ const Home = () => {
     </Paper>}
   )}
 </ImageList>
+    </Box>
 }
 
 export default Home

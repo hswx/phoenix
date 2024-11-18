@@ -162,8 +162,8 @@ if (RELEASE) {
     };
 }
 
-declare const resPath;
-declare const resVersion;
+const RESHOST = "http://127.0.0.1:3004";
+const RESVERSION = "";
 
 declare module RES {
     function getResAsync(key: string): Promise<any>;

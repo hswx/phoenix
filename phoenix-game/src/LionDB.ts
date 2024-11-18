@@ -108,4 +108,12 @@ class LionDB extends eui.Group {
             }
         }
     }
+
+    addDBEventListener(type: string, listener: Function, thisObject: any, useCapture?: boolean, priority?: number): void {
+        this.lion && this.lion.addEventListener(type, listener, thisObject, useCapture, priority)
+    }
+
+    removeDBEventListener(type: string, listener: Function, thisObject: any, useCapture?: boolean): void {
+        this.lion && this.lion.removeEventListener(type, listener, thisObject, useCapture)
+    }
 }
