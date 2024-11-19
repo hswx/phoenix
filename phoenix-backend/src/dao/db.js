@@ -23,6 +23,7 @@ const sequelize = new Sequelize(
   DBCONFIG.DB_PASSWORD,
   {
     host: DBCONFIG.DB_HOST,
+    port: DBCONFIG.DB_PORT,
     dialect: DBCONFIG.DB_TYPE,
     pool: {
       max: 20,
@@ -72,7 +73,7 @@ const initDB = async () => {
   Order.hasMany(OrderFood);
   OrderFood.belongsTo(Order);
 
-  // sequelize.sync({force: true})
+  sequelize.sync();
 }
 
 module.exports = {

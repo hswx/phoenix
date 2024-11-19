@@ -92,3 +92,7 @@ typings/
 out/
 
 storage-backend/uploads
+
+bin-debug/
+
+build/
