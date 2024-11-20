@@ -11,7 +11,8 @@ module.exports = merge(common, {
   devServer: {
     port: 3004,
     hot: true,
-    open: true,
+    open: "/mobile",
+    allowedHosts: "all",
     historyApiFallback: true,
     static: [
       {

@@ -35,6 +35,8 @@ const router = createBrowserRouter([
     path: "/auth",
     element: <Auth />
   }
-]);
+], {
+  basename: "/mobile"
+});
 
 export default router;

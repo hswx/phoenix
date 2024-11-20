@@ -88,6 +88,8 @@ egret.web.WebPlayer.prototype.updateScreenSize = function () {
 };
 
 declare const RES_CONFIG
+declare const RES_HOST
+declare const RES_VERSION
 
 declare namespace RES {
     let config
@@ -162,8 +164,9 @@ if (RELEASE) {
     };
 }
 
-const RESHOST = "http://127.0.0.1:3004";
-const RESVERSION = "";
+
+const resPath = RELEASE ? RES_HOST: "";
+const resVersion = RELEASE ? RES_VERSION: "";
 
 declare module RES {
     function getResAsync(key: string): Promise<any>;

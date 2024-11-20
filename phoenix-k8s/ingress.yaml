@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: phoenix
+  name: ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: dev.phoenix.com.local
+    http:
+      paths:
+      - path: /mobile
+        pathType: Prefix
+        backend:
+          service:
+            name: phoenix-mobile
+            port:
+              number: 80

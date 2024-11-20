@@ -1,5 +1,6 @@
 const fs = require("fs");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
 
 class EgretJsInjectPlugin {
   constructor(manifestPath) {
@@ -14,7 +15,7 @@ class EgretJsInjectPlugin {
           const jsList = JSON.parse(fileData.toString())
           const commonList = jsList.initial
           const gameJsList = jsList.game
-          const egretList = [...commonList, ...gameJsList].map(src =>  (webpackData.plugin.userOptions.publicPath || "/" + src))
+          const egretList = [...commonList, ...gameJsList].map(src =>  (path.join((webpackData.assets.publicPath || "/"), src)))
           webpackData.assets.js = [...egretList, ...webpackData.assets.js]
           cb(null, webpackData)
         }
