@@ -17,3 +17,17 @@ spec:
             name: phoenix-mobile
             port:
               number: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: phoenix-backend
+            port:
+              number: 80
+      - path: /store
+        pathType: Prefix
+        backend:
+          service:
+            name: storage-backend
+            port:
+              number: 80

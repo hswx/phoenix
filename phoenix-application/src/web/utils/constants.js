@@ -1,4 +1,4 @@
-export const BACKEND_HOST = "http://127.0.0.1:3001/"
+export const BACKEND_HOST = "http://dev.phoenix.com.local/api/"
 
 export const TEXT_FIELD_ERROR_TYPE = {
   UNKNOWN: 0,

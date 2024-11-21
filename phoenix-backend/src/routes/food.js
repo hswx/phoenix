@@ -2,11 +2,13 @@ const express = require("express");
 const multer = require( "multer");
 const FormData = require( 'form-data');
 const Food = require('./../model/Food');
-const { FILE_SERVICE_HOST } = require('./../utils/config');
+const { FILE_SERVICE_HOST, FILE_SERVICE_STATIC_HOST } = require('./../utils/config');
 const { generateResponse } = require('./../utils');
 const { Op } = require('sequelize');
 const API_CODES = require("../utils/API_CODES");
 const axios = require("axios");
+const { sequelizeInstance } = require("../dao/db");
+const FoodCategory = require("../model/FoodCategory");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -21,7 +23,7 @@ router.post("/create", upload.single('img'), async function(req, res) {
     }
     const form = new FormData()
     form.append('file', req.file.buffer, { filename: req.file.originalname });
-    const fileUploadRes = await axios.post(`${FILE_SERVICE_HOST}/upload`, form, {
+    const fileUploadRes = await axios.post(`${FILE_SERVICE_HOST}/store/upload`, form, {
       headers: {
         'Content-Type': 'multipart/form-data',
       }
@@ -35,7 +37,7 @@ router.post("/create", upload.single('img'), async function(req, res) {
       storeId: storeId,
       name: body.name,
       price: body.price,
-      imgPath: `${FILE_SERVICE_HOST}/uploads/` + path,
+      imgPath: `${FILE_SERVICE_STATIC_HOST}/store/uploads/` + path,
       cuisine: body.cuisine,
       flavor: body.flavor?.map(Number),
     }).save();
@@ -51,6 +53,7 @@ router.post("/create", upload.single('img'), async function(req, res) {
       }
     ))
   } catch (e) {
+    console.log(1001, e);
     res.status(200).send(generateResponse(API_CODES.Error))
   }
 })
@@ -136,6 +139,8 @@ router.get("/list", async function(req, res) {
 })
 
 router.delete("/delete", async function (req, res) {
+  const transaction = await sequelizeInstance.transaction(); 
+
   try {
     const body = req.body
     const foodList = await Food.findAll({
@@ -146,13 +151,26 @@ router.delete("/delete", async function (req, res) {
           [Op.in]: body.foodList
         }
       },
+      transaction,
     })
     foodList.forEach(item => {
       item.set("deleted", true)
-      item.save();
+      item.save({transaction});
     })
+
+    await FoodCategory.destroy({
+      where: {
+        foodId: {
+          [Op.in]: body.foodList
+        } 
+      },
+      transaction,
+    });
+    await transaction.commit(); 
     res.status(200).send(generateResponse(API_CODES.SUCCESS))
   } catch (e) {
+    console.log(1111, e);
+    await transaction.rollback();
     res.status(200).send(generateResponse(API_CODES.Error))
   }
 })

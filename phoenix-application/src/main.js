@@ -20,7 +20,7 @@ const createWindow = () => {
     callback({
       responseHeaders: {
         ...details.responseHeaders,
-        'Content-Security-Policy': ["connect-src ws://localhost:3000 http://127.0.0.1:3001 https://localhost:3001"]
+        'Content-Security-Policy': ["connect-src ws://localhost:3000 http://127.0.0.1:3001 https://localhost:3001 http://dev.phoenix.com.local"]
       }
     })
   });

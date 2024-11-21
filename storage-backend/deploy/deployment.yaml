@@ -2,33 +2,32 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: phoenix
-  name: phoenix-mobile
+  name: storage-backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: phoenix-mobile
+      app: storage-backend
   template:
     metadata:
       labels:
-        app: phoenix-mobile
+        app: storage-backend
     spec:
       containers:
-      - name: phoenix-mobile
-        image: localhost:5001/phoenix-mobile:latest
+      - name: storage-backend
+        image: localhost:5001/storage-backend:latest
         ports:
-        - containerPort: 8080
-
+        - containerPort: 3002
+ 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   namespace: phoenix
-  name: phoenix-mobile
+  name: storage-backend
 spec:
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 3002
   selector:
-    app: phoenix-mobile
-      
+    app: storage-backend

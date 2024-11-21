@@ -2,11 +2,7 @@ require('dotenv').config();
 
 const express = require("express");
 const { initDB } = require("./src/dao/db");
-const {
-  ELECTRON_FRONTEND_HOST,
-  MOBILE_FRONETNE_HOST,
-  JWT_SCRECT,
-} = require("./src/utils/config");
+const { JWT_SCRECT } = require("./src/utils/config");
 const jwt = require("jsonwebtoken");
 const Account = require("./src/model/Account");
 const { ROLE } = require("./src/utils/constants");
@@ -28,22 +24,20 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use("/api/health", (req, res) => {
+  res.sendStatus(200);
+})
+
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (
-    origin &&
-    [ELECTRON_FRONTEND_HOST, MOBILE_FRONETNE_HOST].includes(origin)
-  ) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-    res.setHeader("Access-Control-Allow-Headers", "*");
-    res.setHeader("Access-Control-Allow-Methods", [
-      "POST",
-      "GET",
-      "PUT",
-      "DELETE",
-      "PATCH",
-    ]);
-  }
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  res.setHeader("Access-Control-Allow-Methods", [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE",
+    "PATCH",
+  ]);
 
   if (req.method === "OPTIONS") {
     res.sendStatus(204);
@@ -53,8 +47,8 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-  const regexp = /^\/auth(\/\S)*/;
-  const mobileRegexp = /^\/mobile\/auth(\/\S)*/;
+  const regexp = /^\/api\/auth(\/\S)*/;
+  const mobileRegexp = /^\/api\/mobile\/auth(\/\S)*/;
 
   if (regexp.test(req.url) || mobileRegexp.test(req.url)) {
     next();
@@ -117,11 +111,11 @@ app.use(async (req, res, next) => {
   }
 });
 
-app.use("/auth", authRouter);
-app.use("/store", storeRouter);
-app.use("/food", foodRouter);
-app.use("/category", categoryRouter);
-app.use("/employee", employeeRouter);
-app.use("/mobile", mobileRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/store", storeRouter);
+app.use("/api/food", foodRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/employee", employeeRouter);
+app.use("/api/mobile", mobileRouter);
 
 module.exports = app;

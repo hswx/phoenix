@@ -10,7 +10,7 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }
 
-app.use("/uploads", express.static(uploadsDir));
+app.use("/store/uploads", express.static(uploadsDir));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/upload", upload.single("file"), (req, res) => {
+app.post("/store/upload", upload.single("file"), (req, res) => {
   if (req.file) {
     res.status(200).json({
       message: "文件上传成功",

@@ -7,7 +7,7 @@ const AxiosBaseline = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
-    axios.defaults.baseURL = BACKEND_HOST + "/mobile"
+    axios.defaults.baseURL = BACKEND_HOST + "/api/mobile"
     axios.interceptors.request.use(e => {
       const regexp = /^\/auth(\/\S)*/;
       if (regexp.test(e.url || "")) {

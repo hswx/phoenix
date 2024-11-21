@@ -69,7 +69,6 @@ class Home extends eui.Group {
           10 * Math.pow(1 - t, 2) * Math.pow(t, 3) * p3y +
           5 * (1 - t) * Math.pow(t, 4) * p4y +
           Math.pow(t, 5) * p5y;
-          console.log(1111, t, diamond.x)
         }
       })
 

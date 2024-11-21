@@ -44,7 +44,7 @@ router.get("/list", async (req, res) => {
           id: dataValue.id,
           name: dataValue.name,
           ruleType: dataValue.ruleType,
-          foodCount: resList.length,
+          foodCount: resList.filter(item => item.dataValues.deleted !== true).length,
           createdAt: dataValue.createdAt?.valueOf() || 0,
         }
       }
