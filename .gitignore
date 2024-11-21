@@ -95,4 +95,6 @@ storage-backend/uploads
 
 bin-debug/
 
+bin-release/
+
 build/
