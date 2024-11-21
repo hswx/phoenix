@@ -3,9 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <style>
+      .egret-player-container {display: none;}
+      .egret-player {position: relative !important;margin: auto; width: 100%; padding-top: 120%}
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div class="egret-player-container">
+      <div class="egret-player"
+      data-entry-class="Main"
+      data-orientation="auto"
+      data-scale-mode="exactFit"
+      data-frame-rate="24"
+      data-content-width="750"
+      data-content-height="${750 * EGRET_HEIGHT_PERCENT / 100}"
+      data-multi-fingered="1"
+      data-show-fps="false" data-show-log="false"
+    ></div>
+    </div>
     <div id="root"></div>
   </body>
 </html>
