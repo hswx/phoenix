@@ -4,7 +4,7 @@ WORKDIR /var/www/phoenix
 
 COPY . .
 
-# RUN npm install
+RUN npm install
 
 EXPOSE 3001
 
