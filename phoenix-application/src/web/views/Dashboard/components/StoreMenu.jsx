@@ -40,7 +40,6 @@ const StoreMenu = () => {
         })
       }
     }catch(e){
-      console.log(1001, e)
     }
  
   }

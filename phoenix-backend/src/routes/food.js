@@ -53,7 +53,6 @@ router.post("/create", upload.single('img'), async function(req, res) {
       }
     ))
   } catch (e) {
-    console.log(1001, e);
     res.status(200).send(generateResponse(API_CODES.Error))
   }
 })
@@ -169,7 +168,6 @@ router.delete("/delete", async function (req, res) {
     await transaction.commit(); 
     res.status(200).send(generateResponse(API_CODES.SUCCESS))
   } catch (e) {
-    console.log(1111, e);
     await transaction.rollback();
     res.status(200).send(generateResponse(API_CODES.Error))
   }

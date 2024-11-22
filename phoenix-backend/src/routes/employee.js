@@ -107,6 +107,7 @@ router.post("/create", async (req, res) => {
     await employee.save();
 
     res.status(200).send(generateResponse(API_CODES.SUCCESS, token))
+    console.log("employee token", token);
   } catch (e) {
     if (e instanceof UniqueConstraintError && e.errors.find(item => item.path === "telephone")) {
       res.status(200).send(generateResponse(API_CODES.REGISTER_TELEPHONE_REPEAT, undefined, "手机号码已存在"))
@@ -204,7 +205,6 @@ router.delete("/delete", async (req, res) => {
     ])))
     res.status(200).send(generateResponse(API_CODES.SUCCESS))
   } catch (e) {
-    console.log(1111, e)
     res.status(200).send(generateResponse(API_CODES.Error))
   }
 })

@@ -33,7 +33,7 @@ export class ExtCompilerPlugin implements plugins.Command {
                 RELEASE: true,
                 RES_VERSION_CONFIG: encodeURIComponent(JSON.stringify(global.resVersionConfig)),
                 RES_CONFIG: encodeURIComponent(global.resConfig),
-                RES_HOST: "",
+                RES_HOST: "mobile/",
                 RES_VERSION: Date.now(),
             }
         })

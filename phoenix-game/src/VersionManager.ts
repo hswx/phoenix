@@ -62,7 +62,7 @@ class VersionController implements RES.IVersionController {
     getVirtualUrl(url: string) {
         // 在开发模式下，所有资源还是以原来的资源路径去加载，方便开发者替换资源
         if (RELEASE) {
-            return this.getResUrlByVersion(url);
+            return "/" + this.getResUrlByVersion(url);
         } else {
             return url;
         }

@@ -149,7 +149,6 @@ const EditEmployeeDialog = (props) => {
     let validatePass = true;
     validateList.forEach(key => {
       const validRes = validateField(key)(employeeFields[key]);
-      console.log(1111, validRes)
       if (validRes.state !== false) {
         validatePass = false
       }
