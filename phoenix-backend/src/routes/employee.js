@@ -87,7 +87,7 @@ router.post("/create", async (req, res) => {
             packageName: "com.android.chrome",
             installType: "FORCE_INSTALLED",
             managedConfiguration: {
-              HomepageLocation: MOBILE_FRONETNE_HOST + "/auth?token" + token,
+              HomepageLocation: MOBILE_FRONETNE_HOST + "/auth?token=" + token,
             }
           }
         ]

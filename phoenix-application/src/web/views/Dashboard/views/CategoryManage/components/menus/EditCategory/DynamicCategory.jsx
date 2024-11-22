@@ -66,7 +66,7 @@ const fields = [
       {name: CUISINE.LU_CAI, label: "鲁菜"},
       {name: CUISINE.MIN_CAI, label: "闽菜"},
       {name: CUISINE.SU_CAI, label: "苏菜"},
-      {name: CUISINE.XIANG_CAI, nlabel: "湘菜"},
+      {name: CUISINE.XIANG_CAI, label: "湘菜"},
       {name: CUISINE.YUE_CAI, label: "粤菜"},
       {name: CUISINE.ZHE_CAI, label: "粤菜"},
     ],

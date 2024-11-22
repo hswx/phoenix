@@ -53,12 +53,17 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: phoenix-backend-secret
-                key: FILE_SERVICE_HOST
+                key: FILE_SERVICE_HOST          
           - name: FILE_SERVICE_STATIC_HOST
             valueFrom:
               secretKeyRef:
                 name: phoenix-backend-secret
                 key: FILE_SERVICE_STATIC_HOST
+          - name: MOBILE_FRONETNE_HOST
+            valueFrom:
+              secretKeyRef:
+                name: phoenix-backend-secret
+                key: MOBILE_FRONETNE_HOST
           - name: JWT_SCRECT
             valueFrom:
               secretKeyRef:
@@ -74,6 +79,11 @@ spec:
               secretKeyRef:
                 name: phoenix-backend-secret
                 key: GOOGLE_MDM_EMAIL
+          - name: GOOGLE_MDM_KEY
+            valueFrom:
+              secretKeyRef:
+                name: phoenix-backend-secret
+                key: GOOGLE_MDM_KEY
           - name: GOOGLE_MDM_KEY_ID
             valueFrom:
               secretKeyRef:
