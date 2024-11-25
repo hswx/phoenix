@@ -1,5 +1,7 @@
 # phoenix
 
+demo video https://hswx.github.io/phoenix/
+
 ![](.readme-resource/phoenix.jpeg)
 
 ![](.readme-resource/phoenix-application-1.png)
