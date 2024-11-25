@@ -1,12 +1,12 @@
 import React from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, Grid, Grid2, List, ListItemButton, ListItemIcon, ListItemText, Paper, Radio, RadioGroup, Stack, TextField } from "@mui/material";
 import DynamicCategory from './DynamicCategory';
-import { CATEGORY_TYPE, TEXT_FIELD_ERROR_TYPE } from './../../../../../../../utils/constants';
+import { CATEGORY_TYPE } from './../../../../../../../utils/constants';
 import apis from './../../../../../../../apis';
 import API_CODES from './../../../../../../../utils/API_CODES';
 import StaticCategory from './StaticCategory';
 import AsyncButton from './../../../../../../../components/AsyncButton';
-import { formatQuery, parseSQL } from 'react-querybuilder';
+import { defaultValueProcessorByRule, formatQuery, parseSQL } from 'react-querybuilder';
 import { useSnackbar } from 'notistack';
 import RequiredTag from '../../../../../../../components/RequiredTag';
 
@@ -94,7 +94,7 @@ const EditCateogryDialog = (props) => {
   const [unSelectFoodList, setUnSelectedFoodList] = React.useState([]);
 
   const getFoodList = async () => {
-    const res = await apis.food.getFoodList();
+    const res = await apis.food.getFoodList({noSoldOut: true});
     return res.code === API_CODES.SUCCESS && res.data || [];
   }
 
@@ -187,7 +187,7 @@ const EditCateogryDialog = (props) => {
       ruleType: categoryFields.ruleType,
     }
     if (categoryFields.ruleType === CATEGORY_TYPE.DYNAMIC_CATEGORY) {
-      data.query = formatQuery(query, 'sql')
+      data.query = formatQuery(query, { format: 'sql', parseNumbers: true })
     } else {
       const addList = selectedFoodList.filter(item => !originalSelectedList.find(id => item.id === id)).map(item => item.id)
       const removeList = originalSelectedList.filter(id => !selectedFoodList.find(item => item.id === id))

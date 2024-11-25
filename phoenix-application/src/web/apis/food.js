@@ -19,8 +19,10 @@ export const updateFood = (param, data) => {
 }
 
 const apiGetFoodList = "/food/list"
-export const getFoodList = () => {
-  return axios.get(apiGetFoodList)
+export const getFoodList = (query) => {
+  return axios.get(apiGetFoodList, {
+    params: query
+  })
 }
 
 const apiDeleteFoodList = "/food/delete"

@@ -1,4 +1,4 @@
-export const BACKEND_HOST = process.env.NODE_ENV === "production" ? "http://dev.phoenix.com.local/api/": "http://127.0.0.1:3001/"
+export const BACKEND_HOST = process.env.NODE_ENV === "production" ? "http://dev.phoenix.com.local/api/": "http://127.0.0.1:3001/api/"
 
 export const TEXT_FIELD_ERROR_TYPE = {
   UNKNOWN: 0,

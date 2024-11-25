@@ -112,10 +112,12 @@ router.put("/update/:foodId", upload.single('img'), async function(req, res) {
 })
 
 router.get("/list", async function(req, res) {
+  const noSoldOut = req.query.noSoldOut;
   const foodList = await Food.findAll({
     where: {
       storeId: req.body.storeId,
       deleted: false,
+      ...(noSoldOut ? {soldOut: false}: {})
     },
     order: [['createdAt', 'DESC']]
   })
@@ -131,7 +133,7 @@ router.get("/list", async function(req, res) {
         flavor: data.flavor,
         cuisine: data.cuisine,
         soldOut: data.soldOut,
-        createdAt: data.createdAt?.valueOf() || 0,
+        createdAt: data.createdAt,
       }
     })
   ))

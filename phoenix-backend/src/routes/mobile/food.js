@@ -95,7 +95,11 @@ router.get("/fullist", async (req, res) => {
         return {
           id: category.id,
           name: category.name,
-          foodList: resList.map(item => ({
+          foodList: resList.filter(item => (
+            item.dataValues.storeId === store.dataValues.id &&
+            item.dataValues.deleted !== true &&
+            item.dataValues.soldOut !== true
+          )).map(item => ({
             id: item.dataValues.id,
             name: item.dataValues.name,
             imgPath: item.dataValues.imgPath,

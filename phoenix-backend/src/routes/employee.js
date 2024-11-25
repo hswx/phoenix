@@ -38,7 +38,7 @@ router.get("/list", async (req, res) => {
           telephone: item.account.dataValues.telephone,
           qrCode: data.qrCode,
           deleted: data.deleted,
-          createdAt: data.createdAt?.valueOf() || 0,
+          createdAt: data.createdAt,
         }
       })
     ))

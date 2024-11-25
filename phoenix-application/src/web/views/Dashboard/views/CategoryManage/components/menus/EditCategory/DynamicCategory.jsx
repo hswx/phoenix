@@ -74,8 +74,8 @@ const fields = [
   {
     name: 'flavor',
     label: '口味',
-    valueEditorType: 'multiselect',
-    operators: defaultOperators.filter((op) => op.name === 'in' || op.name === 'notIn'),
+    valueEditorType: 'select',
+    operators: defaultOperators.filter((op) => op.name === 'contains' || op.name === 'doesNotContain'),
     values: [
       {name: FLAVOR.SOUR, label: "酸"},
       {name: FLAVOR.SWEET, label: "甜"},
@@ -88,12 +88,12 @@ const fields = [
     operators: defaultOperators.filter((op) => ["=", "!=", "<", ">", "<=", ">=", "between", "notBetween"].includes(op.name)),
     inputType: 'number'
   },
-  {
-    name: 'created_at',
-    label: '创建时间',
-    inputType: 'datetime-local',
-    operators: defaultOperators.filter((op) => !["contains", "beginsWith", "endsWith", "doesNotContain", "doesNotBeginWith", "doesNotEndWith", "null", "notNull", "in", "notIn"].includes(op.name)),
-  }
+  // {
+  //   name: 'created_at',
+  //   label: '创建时间',
+  //   inputType: 'datetime-local',
+  //   operators: defaultOperators.filter((op) => !["contains", "beginsWith", "endsWith", "doesNotContain", "doesNotBeginWith", "doesNotEndWith", "null", "notNull", "in", "notIn"].includes(op.name)),
+  // }
 ]
 
 const DynamicCategory = (props) => {
@@ -104,6 +104,7 @@ const DynamicCategory = (props) => {
         query={props.query}
         onQueryChange={props.setQuery}
         independentCombinators={true}
+        parseNumbers={true}
         controlClassnames={{
           body: css`
             display: flex;
@@ -125,7 +126,6 @@ const DynamicCategory = (props) => {
       />}
     </ClassNames>
     <GlobalStyles styles={{ '.ruleGroup': { display: 'flex', flexDirection: 'column', gap: '8px' } }} />
-    
   </QueryBuilderMaterial>
 }
 

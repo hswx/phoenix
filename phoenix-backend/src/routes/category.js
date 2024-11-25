@@ -23,17 +23,26 @@ router.get("/list", async (req, res) => {
     const list = await Promise.all(categoryList.map(async item => {
       const dataValue = item.dataValues;
       if (item.dataValues.ruleType === CATEGORY_TYPE.SELECTED_CATEGORY) {
-        const resList = await FoodCategory.findAndCountAll({
+        const resList = await FoodCategory.findAll({
           where: {
-            categoryId: dataValue.id
-          }
+            categoryId: dataValue.id,
+          },
         })
+        const foodList = await Food.findAll({
+          where: {
+            id: {
+              [Op.in]: resList.map(item => item.dataValues.foodId),
+            },
+            soldOut: false,
+          },
+        })
+     
         return {
           id: dataValue.id,
           name: dataValue.name,
           ruleType: dataValue.ruleType,
-          foodCount: resList.count,
-          createdAt: dataValue.createdAt?.valueOf() || 0,
+          foodCount: foodList.length,
+          createdAt: dataValue.createdAt,
         }
       } else {
         const resList = await sequelizeInstance.query(`SELECT * FROM foods WHERE ${item.dataValues.query}`, {
@@ -44,8 +53,12 @@ router.get("/list", async (req, res) => {
           id: dataValue.id,
           name: dataValue.name,
           ruleType: dataValue.ruleType,
-          foodCount: resList.filter(item => item.dataValues.deleted !== true).length,
-          createdAt: dataValue.createdAt?.valueOf() || 0,
+          foodCount: resList.filter(
+              item => item.dataValues.deleted !== true &&
+              item.dataValues.storeId === body.storeId &&
+              item.dataValues.soldOut !== true
+            ).length,
+          createdAt: dataValue.createdAt,
         }
       }
     }))
